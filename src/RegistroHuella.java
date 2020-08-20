@@ -346,7 +346,7 @@ public void DibujarHuella(Image image){
          rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella3, "src/images/huella-dactilar.png");
          rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella4, "src/images/huella-dactilar.png");
          rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella5, "src/images/huella-dactilar.png");
-         jPanel1.setVisible(false);
+         //jPanel1.setVisible(false);
     }
     public void desactivarComp()
     {
@@ -374,7 +374,6 @@ public void DibujarHuella(Image image){
         txt_paterno = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txt_materno = new javax.swing.JTextField();
-        btn_guardar_aut = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         txt_comentarios = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
@@ -427,14 +426,6 @@ public void DibujarHuella(Image image){
         jLabel3.setText("Apellido Materno:");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
         jPanel2.add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 150, -1));
-
-        btn_guardar_aut.setText("ok");
-        btn_guardar_aut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardar_autActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btn_guardar_aut, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 60, 50));
 
         txt_comentarios.setColumns(20);
         txt_comentarios.setRows(5);
@@ -637,39 +628,6 @@ public void DibujarHuella(Image image){
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void btn_guardar_autActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar_autActionPerformed
-        // TODO add your handling code here:
-        if(txt_nombre.getText().equalsIgnoreCase(""))
-        {
-            cuadroDialogo("Ingrese Nombre");
-        }
-        else
-        {
-            if(txt_paterno.getText().equalsIgnoreCase(""))
-            {
-                cuadroDialogo("Ingrese apellido");
-            }
-            else
-            {
-                if(txt_materno.getText().equalsIgnoreCase(""))
-                {
-                    cuadroDialogo("Ingrese apellido");
-                }
-                else
-                {
-                  jPanel1.setVisible(true);
-                  desactivarComp();
-                  start();
-                  Iniciar();  
-                }
-            }
-        }
-        jPanel1.setVisible(true);
-        desactivarComp();
-        start();
-        Iniciar();
-    }//GEN-LAST:event_btn_guardar_autActionPerformed
-
     private void rb1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rb1ItemStateChanged
         // TODO add your handling code here:
         txt_Area.setText("");
@@ -825,7 +783,6 @@ public void DibujarHuella(Image image){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_guardar_aut;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
