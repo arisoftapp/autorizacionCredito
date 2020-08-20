@@ -118,14 +118,14 @@ public class home extends javax.swing.JFrame {
     private void btn_altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_altaActionPerformed
         // TODO add your handling code here:
         //this.setVisible(false);
-        Alta vista=new Alta();
+        AltaClientes vista=new AltaClientes();
         vista.setVisible(true);
     }//GEN-LAST:event_btn_altaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         //this.setVisible(false);
-        Alta vista=new Alta();
+        AltaClientes vista=new AltaClientes();
         vista.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
