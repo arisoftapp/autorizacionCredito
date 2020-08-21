@@ -340,10 +340,12 @@ private int limite  = 10;
         if(guardar==false)
         {
             cuadroDialogo("Falta Guardar Cliente");
+            /*
             RegistroHuella vista = null;
             vista.param=txt_codigo.getText().toString().trim();
             vista=new RegistroHuella();
             vista.setVisible(true);
+            */
         }
         else
         {

@@ -17,14 +17,22 @@ import com.digitalpersona.onetouch.processing.DPFPEnrollment;
 import com.digitalpersona.onetouch.processing.DPFPFeatureExtraction;
 import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
+import complementos.apiAutorizados;
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -62,6 +70,8 @@ public class RegistroHuella extends javax.swing.JFrame {
     public DPFPFeatureSet featureSetVerificacion;
 
     public static String param;
+    public File fichero=null;
+    apiAutorizados apiautorizados=new apiAutorizados();
     //metodos leer huella eventos
      protected void Iniciar(){
    Lector.addDataListener(new DPFPDataAdapter() {
@@ -347,6 +357,8 @@ public void DibujarHuella(Image image){
          rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella4, "src/images/huella-dactilar.png");
          rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella5, "src/images/huella-dactilar.png");
          //jPanel1.setVisible(false);
+         start();
+         Iniciar();
     }
     public void desactivarComp()
     {
@@ -622,7 +634,7 @@ public void DibujarHuella(Image image){
               //Si el usuario, pincha en aceptar
         if(seleccion==JFileChooser.APPROVE_OPTION){
             //Seleccionamos el fichero
-            File fichero=fc.getSelectedFile();
+            fichero=fc.getSelectedFile();
             //Ecribe la ruta del fichero seleccionado en el campo de texto  
             rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, fichero.getAbsolutePath());
         }
@@ -739,10 +751,186 @@ public void DibujarHuella(Image image){
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
      //System.out.println("no campturo huella "+template1);
-        
-        
+     if(validarCampos())
+     {
+         if(validarDoc())
+        {
+             Thread t = new RegistroHuella.atInsertAutorizados();
+             t.start();
+        }
+        else
+        {
+            cuadroDialogo("Falta registrar huella ");
+        } 
+     }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public class atInsertAutorizados extends Thread
+     {
+         public void run()
+         {
+             apiautorizados.insertAutorizados(crearJson());
+         }
+     }
+    public JSONObject crearJson()
+    {
+        JSONObject general = new JSONObject();
+        JSONArray documentos = new JSONArray();
+           JSONObject autorizados = new JSONObject();
+        try {
+            autorizados.put("nombre",txt_nombre.getText().trim());
+            autorizados.put("a_paterno", txt_paterno.getText().trim());
+            autorizados.put("a_materno",txt_materno.getText().trim());
+            autorizados.put("comentarios", txt_comentarios.getText().trim());
+            autorizados.put("codigoMacro",param);
+            }
+        catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        if(template1!=null)
+        {
+            //estatus 1=huella 2=documento
+            JSONObject objaux = new JSONObject();
+            try {
+            objaux.put("documento",template1.serialize());
+            objaux.put("estatus",1);
+            objaux.put("descripcion","huella dactilar 1");
+            documentos.put(objaux);
+            }
+            catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        }
+        if(template2!=null)
+        {
+            JSONObject objaux = new JSONObject();
+            try {
+            objaux.put("documento",template2.serialize());
+            objaux.put("estatus",1);
+            objaux.put("descripcion","huella dactilar 2");
+            documentos.put(objaux);
+            }
+            catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        }
+        if(template3!=null)
+        {
+            JSONObject objaux = new JSONObject();
+            try {
+            objaux.put("documento",template3.serialize());
+            objaux.put("estatus",1);
+            objaux.put("descripcion","huella dactilar 3");
+            documentos.put(objaux);
+            }
+            catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        }
+        if(template4!=null)
+        {
+            JSONObject objaux = new JSONObject();
+            try {
+            objaux.put("documento",template4.serialize());
+            objaux.put("estatus",1);
+            objaux.put("descripcion","huella dactilar 4");
+            documentos.put(objaux);
+            }
+            catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        }
+        if(template5!=null)
+        {
+            JSONObject objaux = new JSONObject();
+            try {
+            objaux.put("documento",template5.serialize());
+            objaux.put("estatus",1);
+            objaux.put("descripcion","huella dactilar 5");
+            documentos.put(objaux);
+            }
+            catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        }
+        if(fichero!=null)
+        {
+            
+        
+            try {
+                try {
+                    byte[] fileContent =Files.readAllBytes(fichero.toPath());
+             
+            JSONObject objaux = new JSONObject();
+            objaux.put("documento",fileContent);
+            objaux.put("estatus",2);
+            objaux.put("descripcion",fichero.getName());
+            documentos.put(objaux);
+            }
+            catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+                   } catch (IOException ex) {
+                    Logger.getLogger(RegistroHuella.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+           general.put("autorizado",autorizados);
+           general.put("documentos",documentos);
+           System.out.println(general);
+        return general;
+    }
+    public boolean validarCampos()
+    {
+        boolean val=false;
+        if(txt_nombre.getText().equalsIgnoreCase(""))
+        {
+            cuadroDialogo("ingrese nombre");
+            val=false;
+        }
+        else
+        {
+            if(txt_paterno.getText().equalsIgnoreCase(""))
+            {
+                cuadroDialogo("ingrese Apellido paterno");
+                val=false;
+            }
+            else
+            {
+                if(txt_materno.getText().equalsIgnoreCase(""))
+                {
+                    cuadroDialogo("Ingrese Apellido Materno");
+                    val=false;
+                }
+                else
+                {
+                    val=true;
+                }
+            }
+        }
+        
+        return val;
+        
+    }
+    public boolean validarDoc()
+    {
+        boolean val=false;
+        if(template1!=null || template2!=null || template3!=null || template4!=null || template5!=null )
+        {
+            val=true;
+        }
+        else
+        {
+            val=false;
+        }
+        return val;
+    }
         public void cuadroDialogo(String mensaje)
     {
           JOptionPane.showMessageDialog(null, mensaje);
@@ -777,7 +965,7 @@ public void DibujarHuella(Image image){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistroHuella().setVisible(true);
+                      new RegistroHuella().setVisible(true);
             }
         });
     }
