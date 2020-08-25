@@ -21,6 +21,7 @@ import complementos.apiAutorizados;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -637,6 +638,7 @@ public void DibujarHuella(Image image){
             fichero=fc.getSelectedFile();
             //Ecribe la ruta del fichero seleccionado en el campo de texto  
             rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, fichero.getAbsolutePath());
+            
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -764,7 +766,17 @@ public void DibujarHuella(Image image){
         } 
      }
     }//GEN-LAST:event_jButton1ActionPerformed
-
+   public class atUploading extends Thread
+     {
+         public void run()
+         {
+             try {
+                 apiautorizados.subirImg(fichero);
+             } catch (IOException ex) {
+                 Logger.getLogger(RegistroHuella.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         }
+     }
     public class atInsertAutorizados extends Thread
      {
          public void run()
