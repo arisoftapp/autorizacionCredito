@@ -2,6 +2,7 @@
 
 import complementos.consultasApi;
 import complementos.consultasBD;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -59,6 +60,8 @@ public class AltaClientes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         add = new javax.swing.JLabel();
         save = new javax.swing.JLabel();
         btn_add = new javax.swing.JButton();
@@ -76,8 +79,10 @@ public class AltaClientes extends javax.swing.JFrame {
         txt_comentarios = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 400));
+        setMinimumSize(new java.awt.Dimension(700, 400));
+        setPreferredSize(new java.awt.Dimension(700, 500));
         setResizable(false);
+        setSize(new java.awt.Dimension(700, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("ID:");
@@ -99,8 +104,23 @@ public class AltaClientes extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Autorizados"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 140));
+
         add.setText("jLabel2");
-        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 30, 30));
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 30, 30));
         jPanel1.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 30, 30));
 
         btn_add.setText("jButton3");
@@ -109,7 +129,7 @@ public class AltaClientes extends javax.swing.JFrame {
                 btn_addActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, 50, 50));
+        jPanel1.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, 50, 50));
 
         btn_guardar_cliente.setText("Guardar");
         btn_guardar_cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -334,27 +354,51 @@ private int limite  = 10;
     {
           JOptionPane.showMessageDialog(null, mensaje);
     }
-    
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         // TODO add your handling code here:
-        if(guardar==false)
-        {
-            cuadroDialogo("Falta Guardar Cliente");
-            
-            RegistroHuella vista = null;
-            vista.param=txt_codigo.getText().toString().trim();
-            vista=new RegistroHuella();
-            vista.setVisible(true);
-            
-        }
-        else
-        {
-            
-            RegistroHuella vista = null;
-            vista.param=txt_codigo.getText().toString().trim();
-            vista=new RegistroHuella();
-            vista.setVisible(true);
-        }
+        //System.out.println(vista);
+                    try{
+                        if(vista==null)
+                        {
+                            System.out.println("Abrir ventada");
+                            vista.param=txt_codigo.getText().toString().trim();
+                            vista=new Autorizado();
+                            if(guardar==false)
+                            {
+                                cuadroDialogo("Falta Guardar Cliente");
+                                vista.setVisible(true);
+                            }
+                            else
+                            {
+                                vista.setVisible(true);
+                            }
+                        }
+                        else
+                        {
+                            if(vista.isShowing())
+                            {
+                                System.out.println("Vista abierta");
+                            }
+                            else
+                            {
+                                vista.param=txt_codigo.getText().toString().trim();
+                                vista=new Autorizado();
+                                if(guardar==false)
+                                {
+                                    cuadroDialogo("Falta Guardar Cliente"); 
+                                    vista.setVisible(true);
+                                }
+                                else
+                                {
+                                    vista.setVisible(true);
+                                }
+                            }
+                        }
+            }catch(Exception e)
+            {
+                System.err.println(e.getMessage());
+            }
+        
         
     }//GEN-LAST:event_btn_addActionPerformed
 
@@ -424,6 +468,7 @@ private int limite  = 10;
     //variables
     consultasBD consultasBD=new consultasBD();
     boolean guardar=false;
+    Autorizado vista=null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel add;
     private javax.swing.JButton btn_add;
@@ -438,6 +483,8 @@ private int limite  = 10;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel save;
     private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextArea txt_comentarios;

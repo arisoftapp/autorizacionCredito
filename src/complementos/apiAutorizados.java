@@ -9,7 +9,9 @@ import java.awt.List;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
@@ -21,6 +23,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -89,10 +92,109 @@ public class apiAutorizados {
         }
          
     }
-               public void subirImagen(File file)
+        public void pruebas2( byte[] content ) throws IOException
     {
- 
+        System.out.println(content);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost("http://wsar.homelinux.com:3100/prueba");
+        httppost.setEntity(new ByteArrayEntity(content));
+        //httppost.setEntity(enti);
+        CloseableHttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+        response.close();
+        String finalJSON=EntityUtils.toString(entity);
+        System.out.println(finalJSON);
+    }
+               
+            public void pruebas(JSONObject json)
+    {
+         try {
+            URL url = new URL("http://wsar.homelinux.com:3100/prueba");//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            os.writeBytes(json.toString());
+            os.flush();
+            os.close();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   System.out.println(jObject.getBoolean("success"));
+                   //cuadroDialogo(jObject.getString("mensaje"));
+               }
+               else
+               {
+                 
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
          
+    }
+                    public JSONObject pruebasget()
+    {
+         JSONObject res = null;
+         try {
+            URL url = new URL("http://wsar.homelinux.com:3100/pruebaget");//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                //System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   System.out.println(jObject.getBoolean("success"));
+                   //cuadroDialogo(jObject.getString("mensaje"));
+                   res=new JSONObject(finalJSON);
+               }
+               else
+               {
+                 
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+         return res;
     }
                
     public void subirImg (File fichero) throws IOException 
@@ -113,12 +215,31 @@ public class apiAutorizados {
         httppost.setEntity(mpEntity);
         //httppost.setEntity(enti);
         CloseableHttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+        String finalJSON=EntityUtils.toString(entity);
+        System.out.println(finalJSON);
+        JSONObject jObject = new JSONObject(finalJSON);
+        /*
+             if(jObject.getBoolean("success"))
+               {
+                   //System.out.println(jObject.getBoolean("success"));
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+               else
+               {
+                 
+               }
+        */
+        response.close();
+        /*
         try {
+            
             HttpEntity entity = response.getEntity();
             if (entity != null) {
             long len = entity.getContentLength();
             if (len != -1 && len < 2048) {
             System.out.println(EntityUtils.toString(entity));
+   
         } else {
             // Stream content out
         }
@@ -126,10 +247,50 @@ public class apiAutorizados {
 } finally {
     response.close();
 }
+*/
     }   
-    
-               
-  
+    public void download()
+    {
+        try {
+            URL url = new URL("http://wsar.homelinux.com:3100/download/1");//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                //BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            File file = new File("src/huellaserver.bin");
+            copyInputStreamToFile(conn.getInputStream(), file);
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+    }
+      private static void copyInputStreamToFile(InputStream inputStream, File file)throws IOException {
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+
+			// commons-io
+            //IOUtils.copy(inputStream, outputStream);
+
+        }
+
+    }
      public void cuadroDialogo(String mensaje)
     {
           JOptionPane.showMessageDialog(null, mensaje);

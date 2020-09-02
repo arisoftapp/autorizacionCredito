@@ -1,12 +1,18 @@
 package complementos;
 
 
+import com.digitalpersona.onetouch.DPFPGlobal;
+import com.digitalpersona.onetouch.DPFPTemplate;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+import java.io.ByteArrayInputStream;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,10 +25,13 @@ import java.sql.SQLException;
  * @author Desarrollo
  */
 public class consultasBD {
+    conexionBD con=new conexionBD();
+    Connection conexion=con.conectar();
       public void insertBD(String usuario,String token,boolean sesion,String ruta)
     {
           try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+              
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           comando.executeUpdate("insert into usuario(nom_usuario,token,sesion,ruta) values ('"+usuario+"','"+token+"',"+sesion+",'"+ruta+"')");
           conexion.close();
@@ -34,7 +43,7 @@ public class consultasBD {
            public void update(String usuario,String token,boolean sesion,String ruta)
     {
           try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           PreparedStatement stmt;
           stmt = conexion.prepareStatement("UPDATE usuario SET token='"+token+"',ruta='"+ruta+"',sesion='"+sesion+"' WHERE nom_usuario='"+usuario+"'");
@@ -57,7 +66,7 @@ public class consultasBD {
       {
           boolean validar=false;
               try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           ResultSet registro = comando.executeQuery("select * from usuario where nom_usuario='"+usuario+"'");
 	  if (registro.next()==true) {
@@ -79,7 +88,7 @@ public class consultasBD {
       {
           String res="";
                      try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           ResultSet registro = comando.executeQuery("select * from usuario");
 	  if (registro.next()==true) {
@@ -101,7 +110,7 @@ public class consultasBD {
       {
           String res="";
                      try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           ResultSet registro = comando.executeQuery("select * from usuario");
 	  if (registro.next()==true) {
@@ -122,7 +131,7 @@ public class consultasBD {
       public void deleteUserLogout()
       {
                                try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           PreparedStatement st = conexion.prepareStatement("DELETE FROM usuario");
           st.executeUpdate();
           conexion.close();
@@ -135,7 +144,7 @@ public class consultasBD {
       {
           boolean validar=false;
               try {
-          Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           ResultSet registro = comando.executeQuery("select * from usuario");
 	  if (registro.next()==true) {
@@ -153,5 +162,36 @@ public class consultasBD {
         }
               return validar;
       }
-    
+       
+       public void insertHuella(ByteArrayInputStream datosHuella, Integer tamañoHuella)
+       {
+        try {
+            //Connection c=con.conectar(); //establece la conexion con la BD
+            PreparedStatement guardarStmt = conexion.prepareStatement("INSERT INTO huella(data)values(?)");
+            guardarStmt.setBinaryStream(1, datosHuella,tamañoHuella);
+              guardarStmt.execute();
+             JOptionPane.showMessageDialog(null,"Huella Guardada Correctamente");
+     con.desconectar();
+     guardarStmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(consultasBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       }
+       public DPFPTemplate getHuella()
+       {
+            DPFPTemplate referenceTemplate=null;
+        try {
+            PreparedStatement identificarStmt = conexion.prepareStatement("SELECT data FROM huella");
+               ResultSet rs = identificarStmt.executeQuery();
+                    while(rs.next()){
+
+            byte templateBuffer[] = rs.getBytes("data");
+            referenceTemplate = DPFPGlobal.getTemplateFactory().createTemplate(templateBuffer);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(consultasBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return referenceTemplate;
+       }
 }

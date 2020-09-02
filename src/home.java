@@ -27,6 +27,8 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -69,6 +71,7 @@ public class home extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         btn_cerrarsesion = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -118,6 +121,14 @@ public class home extends javax.swing.JFrame {
         });
         getContentPane().add(btn_cerrarsesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 200, 100));
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         jMenu1.setText("Clientes");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
@@ -139,8 +150,11 @@ public class home extends javax.swing.JFrame {
     private void btn_altaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_altaActionPerformed
         // TODO add your handling code here:
         //this.setVisible(false);
+        //AltaClientes vista=new AltaClientes();
+    
         AltaClientes vista=new AltaClientes();
         vista.setVisible(true);
+    
     }//GEN-LAST:event_btn_altaActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -198,7 +212,24 @@ public class home extends javax.swing.JFrame {
         //this.setVisible(false);
   
     }//GEN-LAST:event_jButton2ActionPerformed
-public File fichero=null;
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+                JSONArray info=new JSONArray();
+        apiAutorizados apiautorizados=new apiAutorizados();
+        info=apiautorizados.pruebasget().getJSONArray("info");
+        
+        for (int i = 0; i < info.length(); i++) {
+    JSONObject datos = info.getJSONObject(i);
+    //System.out.println(+i+" "+datos.get("datos"));
+    JSONObject d=new JSONObject();
+    d=datos.getJSONObject("datos");
+   
+    System.out.println(" "+d.get("data"));
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     /**
      * @param args the command line arguments
@@ -244,6 +275,7 @@ public File fichero=null;
     private javax.swing.JButton btn_cerrarsesion;
     private javax.swing.JLabel img_clientes;
     private javax.swing.JLabel img_logout;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JMenu jMenu1;
