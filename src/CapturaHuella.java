@@ -17,11 +17,23 @@ import com.digitalpersona.onetouch.processing.DPFPEnrollment;
 import com.digitalpersona.onetouch.processing.DPFPFeatureExtraction;
 import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
+import complementos.apiAutorizados;
+import complementos.apiSubir;
 import java.awt.Image;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,6 +51,9 @@ public class CapturaHuella extends javax.swing.JFrame {
      * Creates new form CapturaHuella
      */
      //declarando variables para huella
+    public static String codigo;
+    public static String nombre;
+    public static Integer id_autorizados;
     //Nos sirve para identificar al dispositivo
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
     //Nos sirve para leer a modo de enrrolar, y crear una plantilla nueva, a base de 4 huellas.
@@ -76,6 +91,7 @@ public class CapturaHuella extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
+        System.out.println(codigo+" "+nombre);
     }
      protected void Iniciar(){
    Lector.addDataListener(new DPFPDataAdapter() {
@@ -195,33 +211,12 @@ public void DibujarHuella(Image image){
                case TEMPLATE_STATUS_READY:	// informe de éxito y detiene  la captura de huellas
                setTemplate(Reclutador.getTemplate());
                 // Dibuja la huella dactilar capturada.
-               if(rb1.isSelected())
-               {
-                   val1=true;
-                   validarHuellaCompleta();
-               }
-               if(rb2.isSelected())
-               {
-                   val2=true;
-                   validarHuellaCompleta();
-               }
-               if(rb3.isSelected())
-               {
-                   val3=true;
-                   validarHuellaCompleta();
-               }
-               if(rb4.isSelected())
-               {
-                   val4=true;
-                   validarHuellaCompleta();
-               }
-               if(rb5.isSelected())
-               {
-                   val5=true;
-                   validarHuellaCompleta();
-               }
                 Image image=CrearImagenHuella(sample);
                 DibujarHuella(image);
+                Integer index=cambiarValidacion();
+                   System.out.println("index: "+index);
+                crearFichero(index,template);
+                
                stop();
                EnviarTexto("La Plantilla de la Huella ha Sido Creada, ya puede Guardarla");
                break;
@@ -260,9 +255,10 @@ public void DibujarHuella(Image image){
         rb4 = new javax.swing.JRadioButton();
         rb5 = new javax.swing.JRadioButton();
         btn_guardar = new javax.swing.JButton();
+        btn_guardar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 500));
+        setPreferredSize(new java.awt.Dimension(500, 520));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -328,6 +324,18 @@ public void DibujarHuella(Image image){
         });
 
         btn_guardar.setText("jButton1");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
+
+        btn_guardar1.setText("jButton1");
+        btn_guardar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -371,7 +379,10 @@ public void DibujarHuella(Image image){
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 21, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_guardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
@@ -401,7 +412,9 @@ public void DibujarHuella(Image image){
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_guardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
 
@@ -511,6 +524,81 @@ public void DibujarHuella(Image image){
         stop();
     }//GEN-LAST:event_formWindowClosed
 
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        // TODO add your handling code here:
+        apiSubir apisubir=new apiSubir();     
+        apiAutorizados apiautorizados=new apiAutorizados();
+        try {
+            JSONObject res=apisubir.subirHuella();
+            if(res.getBoolean("success"))
+            {
+                //cuadroDialogo(res.getString("mensaje"));
+                apiautorizados.insertRutaAHuella(crearJsonRutaHuella());
+            }
+            else
+            {
+                cuadroDialogo("Problemas al guardar huellas");
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(CapturaHuella.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void btn_guardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar1ActionPerformed
+        // TODO add your handling code here:
+        crearJsonRutaHuella();
+    }//GEN-LAST:event_btn_guardar1ActionPerformed
+
+    public void crearFichero(Integer i,DPFPTemplate templateAux)
+    {
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("HHmmssddMMyyyy");
+        System.out.println("Hora y fecha: "+hourdateFormat.format(date));
+        String ruta="src/tmp/"+hourdateFormat.format(date)+codigo+nombre+i+".bin";
+        try(FileOutputStream fileOuputStream = new FileOutputStream(ruta)){
+            fileOuputStream.write(templateAux.serialize());
+            
+        }catch(Exception e)
+        {
+            System.err.println(e);
+        }
+    }
+    public Integer cambiarValidacion()
+    {
+        Integer i=0;
+                if(rb1.isSelected())
+               {
+                   i=1;
+                   val1=true;
+                   validarHuellaCompleta();
+               }
+               if(rb2.isSelected())
+               {
+                   i=2;
+                   val2=true;
+                   validarHuellaCompleta();
+               }
+               if(rb3.isSelected())
+               {
+                   i=3;
+                   val3=true;
+                   validarHuellaCompleta();
+               }
+               if(rb4.isSelected())
+               {
+                   i=4;
+                   val4=true;
+                   validarHuellaCompleta();
+               }
+               if(rb5.isSelected())
+               {
+                   i=5;
+                   val5=true;
+                   validarHuellaCompleta();
+               }
+               return i;
+    }
     public void validarHuellaCompleta()
     {
         if(val1==true)
@@ -592,6 +680,34 @@ public void DibujarHuella(Image image){
             
         }
     }
+    public JSONObject crearJsonRutaHuella()
+    {   
+        JSONObject json = new JSONObject();
+        JSONArray data=new JSONArray();
+        File carpeta = new File("src/tmp");
+        String[] listado = carpeta.list();
+        try {     
+         for (int i=0; i< listado.length; i++) {
+              JSONObject tmp=new JSONObject();
+             tmp.put("ruta", listado[i]);
+             tmp.put("id_autorizados", id_autorizados);
+             tmp.put("codigoMacro", codigo);
+             data.put(tmp);
+        //System.out.println(listado[i]);
+        }
+         //System.out.println(data);
+         json.put("data", data);
+         System.out.println(data);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    
+        return json;
+    }
+    public void cuadroDialogo(String mensaje)
+    {
+          JOptionPane.showMessageDialog(null, mensaje);
+    }
     /**
      * @param args the command line arguments
      */
@@ -629,6 +745,7 @@ public void DibujarHuella(Image image){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_guardar1;
     private javax.swing.ButtonGroup grupoHuella;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_huella1;

@@ -29,6 +29,7 @@ public class Autorizado extends javax.swing.JFrame {
      * Creates new form Autorizado
      */
     public static String param;
+    public Integer id_autorizados;
     public File fichero=null;
     apiSubir subirImg=new apiSubir();
     apiAutorizados apiautorizados=new apiAutorizados();
@@ -259,7 +260,7 @@ public class Autorizado extends javax.swing.JFrame {
                         //cuadroDialogo("sin foto cargada");
                         
                         //guardarAutorizadoAync(false);
-                        apiautorizados.insertAutorizados(crearJsonAutorizado("", false));
+                        id_autorizados=apiautorizados.insertAutorizados(crearJsonAutorizado("", false));
                         
                     }
                     else
@@ -270,7 +271,7 @@ public class Autorizado extends javax.swing.JFrame {
                             if(json.getBoolean("success"))
                             {
                                 //cuadroDialogo(json.getString("nombre"));
-                                apiautorizados.insertAutorizados(crearJsonAutorizado(json.getString("nombre"), true));
+                                id_autorizados=apiautorizados.insertAutorizados(crearJsonAutorizado(json.getString("nombre"), true));
                             }
                             else
                             {
@@ -307,7 +308,11 @@ public class Autorizado extends javax.swing.JFrame {
 
     private void btn_huellasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_huellasActionPerformed
         // TODO add your handling code here:
-        CapturaHuella vista=new CapturaHuella();
+        CapturaHuella vista=null;
+        vista.codigo=param;
+        vista.nombre=txt_nombre.getText().trim();
+        vista.id_autorizados=id_autorizados;
+        vista=new CapturaHuella();
         vista.setVisible(true);
     }//GEN-LAST:event_btn_huellasActionPerformed
     public JSONObject crearJsonAutorizado(String foto,boolean val)
@@ -358,6 +363,7 @@ public class Autorizado extends javax.swing.JFrame {
             } 
          }
      }
+      
     public void cuadroDialogo(String mensaje)
     {
           JOptionPane.showMessageDialog(null, mensaje);
