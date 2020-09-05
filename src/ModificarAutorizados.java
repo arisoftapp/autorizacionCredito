@@ -1,6 +1,8 @@
 
 import complementos.apiClientes;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /*
@@ -15,13 +17,17 @@ import org.json.JSONObject;
  */
 public class ModificarAutorizados extends javax.swing.JFrame {
 
-    /**
+/**
      * Creates new form ModificarAutorizados
      */
     //variables
-    apiClientes apiclientes=new apiClientes();
+    BuscarClientes vistaBC=null;
+        apiClientes apiclientes=new apiClientes();
     public ModificarAutorizados() {
+
+       
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -49,7 +55,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_comentarios = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tb_autorizados = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 500));
@@ -57,6 +63,11 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         jLabel1.setText("Codigo MacroPro:");
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Nombre:");
 
@@ -79,19 +90,19 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         txt_comentarios.setRows(5);
         jScrollPane1.setViewportView(txt_comentarios);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tb_autorizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombre"
+                "ID", "Nombre", "Estatus"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -102,11 +113,14 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(30);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
+        jScrollPane2.setViewportView(tb_autorizados);
+        if (tb_autorizados.getColumnModel().getColumnCount() > 0) {
+            tb_autorizados.getColumnModel().getColumn(0).setMinWidth(30);
+            tb_autorizados.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tb_autorizados.getColumnModel().getColumn(0).setMaxWidth(30);
+            tb_autorizados.getColumnModel().getColumn(2).setMinWidth(60);
+            tb_autorizados.getColumnModel().getColumn(2).setPreferredWidth(60);
+            tb_autorizados.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -182,6 +196,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        limpiarCampos();
         if(txt_codigo.getText().equalsIgnoreCase(""))
         {
             cuadroDialogo("Ingrese Codigo");
@@ -190,16 +205,60 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         {
             
             JSONObject respuesta=new JSONObject();
+            JSONObject resCli=new JSONObject();
+             DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
             respuesta=apiclientes.getCliente(txt_codigo.getText().toString().trim());
-            txt_nombre.setText(respuesta.getString("nombre"));
-            txt_paterno.setText(respuesta.getString("a_paterno"));
-            txt_materno.setText(respuesta.getString("a_materno"));
-            txt_puesto.setText(respuesta.getString("puesto"));
-            txt_comentarios.setText(respuesta.getString("comentarios"));
+                  JSONArray jArray = respuesta.getJSONArray("respuesta");
+                 for (int i=0;i<jArray.length();i++){
+                        resCli = jArray.getJSONObject(i);       
+                }
+                 JSONArray arrayAu = respuesta.getJSONArray("autorizados");
+                 for (int i=0;i<arrayAu.length();i++){
+                        //resCli = arrayAu.getJSONObject(i);    
+                        JSONObject obj=arrayAu.getJSONObject(i);
+                        String nombre=obj.getString("nombre")+" "+obj.getString("a_paterno")+" "+obj.getString("a_materno");
+                        String estatus=obj.getString("nom_estatus");
+                        Integer id=obj.getInt("idautorizados");
+                        Object [] fila = new Object[3];
+                        fila[0] = id;
+                        fila[1] = nombre;
+                        fila[2] = estatus;
+                        modelo.addRow ( fila );
+                        System.out.println("autorizados:"+obj);
+                }
+            txt_nombre.setText(resCli.getString("nombre"));
+            txt_paterno.setText(resCli.getString("a_paterno"));
+            txt_materno.setText(resCli.getString("a_materno"));
+            txt_puesto.setText(resCli.getString("puesto"));
+            txt_comentarios.setText(resCli.getString("comentarios"));
             //cuadroDialogo(respuesta.toString());
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //JSONObject res =  apiclientes.getClientes();
+        //cuadroDialogo(res.toString());
+        vistaBC=new BuscarClientes();
+        vistaBC.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void limpiarCampos()
+    {
+        txt_nombre.setText("");
+        txt_paterno.setText("");
+        txt_materno.setText("");
+        txt_puesto.setText("");
+        txt_comentarios.setText("");
+        DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
+        if(modelo.getRowCount()>0)
+        {
+            modelo.getDataVector().removeAllElements();
+            modelo.fireTableDataChanged();
+        }
+        
+    }
     public void cuadroDialogo(String mensaje)
     {
           JOptionPane.showMessageDialog(null, mensaje);
@@ -250,7 +309,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tb_autorizados;
     private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextArea txt_comentarios;
     private javax.swing.JTextField txt_materno;
