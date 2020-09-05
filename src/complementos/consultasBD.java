@@ -29,6 +29,7 @@ public class consultasBD {
     Connection conexion=con.conectar();
       public void insertBD(String usuario,String token,boolean sesion,String ruta)
     {
+        conexion=con.conectar();
           try {
               
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
@@ -42,6 +43,7 @@ public class consultasBD {
     }
            public void update(String usuario,String token,boolean sesion,String ruta)
     {
+        conexion=con.conectar();
           try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
@@ -64,6 +66,7 @@ public class consultasBD {
     }
       public boolean buscarPorUsuario(String usuario)
       {
+          conexion=con.conectar();
           boolean validar=false;
               try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
@@ -86,6 +89,7 @@ public class consultasBD {
       }
       public String getUsuario()
       {
+          conexion=con.conectar();
           String res="";
                      try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
@@ -108,6 +112,7 @@ public class consultasBD {
       }
             public String getToken()
       {
+          conexion=con.conectar();
           String res="";
                      try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
@@ -130,6 +135,7 @@ public class consultasBD {
       }
       public void deleteUserLogout()
       {
+          conexion=con.conectar();
                                try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           PreparedStatement st = conexion.prepareStatement("DELETE FROM usuario");
@@ -142,6 +148,7 @@ public class consultasBD {
       }
        public boolean tablaVacia()
       {
+          conexion=con.conectar();
           boolean validar=false;
               try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
@@ -165,6 +172,7 @@ public class consultasBD {
        
        public void insertHuella(ByteArrayInputStream datosHuella, Integer tamañoHuella)
        {
+           conexion=con.conectar();
         try {
             //Connection c=con.conectar(); //establece la conexion con la BD
             PreparedStatement guardarStmt = conexion.prepareStatement("INSERT INTO huella(data)values(?)");

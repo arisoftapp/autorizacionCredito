@@ -1,5 +1,7 @@
 
 
+import com.digitalpersona.onetouch.DPFPGlobal;
+import com.digitalpersona.onetouch.capture.DPFPCapture;
 import complementos.consultasApi;
 import complementos.consultasBD;
 import java.awt.event.WindowEvent;
@@ -31,7 +33,7 @@ import org.json.JSONObject;
  * @author antonio
  */
 public class AltaClientes extends javax.swing.JFrame {
-
+  
     /**
      * Creates new form altaclientes
      */

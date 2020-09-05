@@ -39,6 +39,16 @@ public class Autorizado extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, "src/images/camera.png");
         txt_codigo.setText(param);
+        limpiarDirectorio();
+    }
+    public void limpiarDirectorio()
+    {
+        File directorio = new File("src/tmp");
+        File[] ficheros = directorio.listFiles();
+        for(int i=0;i<ficheros.length;i++)
+        {
+            ficheros[i].delete();
+        }
     }
 
     /**

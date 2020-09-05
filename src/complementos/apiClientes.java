@@ -55,6 +55,7 @@ public class apiClientes {
                         JSONObject objeto = jArray.getJSONObject(i);
                         data=objeto;
                         //System.out.println(objeto);
+                        
                 }
                  }
                else

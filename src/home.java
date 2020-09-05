@@ -1,7 +1,3 @@
-
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ContentDisposition;
-import static com.sun.xml.internal.ws.api.message.Packet.Status.Request;
-
 import complementos.apiAutorizados;
 import complementos.consultasApi;
 import complementos.consultasBD;
@@ -13,6 +9,7 @@ import java.util.logging.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -41,7 +38,7 @@ import org.json.JSONObject;
  * @author antonio
  */
 public class home extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form inicio
      */
@@ -70,13 +67,14 @@ public class home extends javax.swing.JFrame {
         btn_alta = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        btn_cerrarsesion = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btn_salir = new javax.swing.JButton();
+        btn_verificar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Verificar Autorizado");
         setPreferredSize(new java.awt.Dimension(700, 500));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -105,24 +103,24 @@ public class home extends javax.swing.JFrame {
         jButton2.setText("jButton1");
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 40, 200, 100));
 
-        btn_cerrarsesion.setText("Cerrar Sesion");
-        btn_cerrarsesion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btn_cerrarsesion.setMargin(new java.awt.Insets(2, 14, 15, 14));
-        btn_cerrarsesion.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btn_cerrarsesion.addActionListener(new java.awt.event.ActionListener() {
+        btn_salir.setText("Cerrar Sesion");
+        btn_salir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_salir.setMargin(new java.awt.Insets(2, 14, 15, 14));
+        btn_salir.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btn_salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cerrarsesionActionPerformed(evt);
+                btn_salirActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_cerrarsesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 200, 100));
+        getContentPane().add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 200, 100));
 
-        jButton4.setText("Modificar Cliente");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btn_verificar.setText("Verificar");
+        btn_verificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btn_verificarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 200, 100));
+        getContentPane().add(btn_verificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 200, 100));
 
         jMenu1.setText("Clientes");
 
@@ -159,7 +157,7 @@ public class home extends javax.swing.JFrame {
         vista.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void btn_cerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cerrarsesionActionPerformed
+    private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
         // TODO add your handling code here:
         Thread t = new home.at_cerrar();
             t.start();
@@ -179,7 +177,7 @@ public class home extends javax.swing.JFrame {
         
  
  
-    }//GEN-LAST:event_btn_cerrarsesionActionPerformed
+    }//GEN-LAST:event_btn_salirActionPerformed
 
     public class at_cerrar extends Thread
     {
@@ -199,12 +197,25 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
 
        //this.setVisible(false);
+       this.setVisible(false);
+        ModificarAutorizados vh=new ModificarAutorizados();
+        vh.setVisible(true);
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btn_verificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verificarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        try{
+            this.setVisible(false);
+            VerificarHuella vh=new VerificarHuella();
+            vh.setVisible(true);
+        }catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE );
+        }
+        
+        
+    }//GEN-LAST:event_btn_verificarActionPerformed
    
     /**
      * @param args the command line arguments
@@ -247,12 +258,12 @@ public class home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_alta;
-    private javax.swing.JButton btn_cerrarsesion;
+    private javax.swing.JButton btn_salir;
+    private javax.swing.JButton btn_verificar;
     private javax.swing.JLabel img_clientes;
     private javax.swing.JLabel img_logout;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;

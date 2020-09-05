@@ -960,7 +960,7 @@ else
     {
                 JSONArray info=new JSONArray();
         apiAutorizados apiautorizados=new apiAutorizados();
-        info=apiautorizados.pruebasget().getJSONArray("info");
+        //info=apiautorizados.pruebasget().getJSONArray("info");
         Integer tamaño=0;
          ByteArrayInputStream datosHuella=null;
         //ByteArrayInputStream datosHuella = new ByteArrayInputStream(template1.serialize());

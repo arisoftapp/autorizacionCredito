@@ -200,16 +200,60 @@ public class apiAutorizados {
         }
          
     }
-                    public JSONObject pruebasget()
+                    public JSONObject getRutasHuella(String codigoMacro)
     {
          JSONObject res = null;
          try {
-            URL url = new URL("http://wsar.homelinux.com:3100/pruebaget");//your url i.e fetch data from .
+            URL url = new URL("http://wsar.homelinux.com:3100/getRutaHuellas/"+codigoMacro);//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept","application/json");
-            //conn.setRequestProperty("access-token",token);
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                //System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   System.out.println(jObject.getBoolean("success"));
+                   //cuadroDialogo(jObject.getString("mensaje"));
+                   res=new JSONObject(finalJSON);
+               }
+               else
+               {
+                 
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e.getMessage());
+          JOptionPane.showMessageDialog(null, "Problemas al Descargar Foto: "+e.getMessage(),"",JOptionPane.WARNING_MESSAGE);
+        }
+         return res;
+    }
+             public JSONObject getAutorizadoId(String id)
+    {
+         JSONObject res = null;
+         try {
+            URL url = new URL("http://wsar.homelinux.com:3100/getAutorizado/"+id);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
             conn.setConnectTimeout(10000);
             conn.setReadTimeout(10000);
             conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
@@ -243,8 +287,7 @@ public class apiAutorizados {
           
         }
          return res;
-    }
-               
+    }  
     public void subirImg (File fichero) throws IOException 
     {
         
@@ -320,6 +363,56 @@ public class apiAutorizados {
         } catch (IOException | JSONException e) {
             System.err.println("Exception in NetClientGet:- " + e);
           
+        }
+    }
+    public void downloadHuella(String nombre)
+    {
+        try {
+            URL url = new URL("http://wsar.homelinux.com:3100/download_huellas/"+nombre);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(20000);
+            conn.setReadTimeout(20000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                //BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            File file = new File("src/tmpDescargas/"+nombre);
+            copyInputStreamToFile(conn.getInputStream(), file);
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+    }
+    public void downloadFoto(String nombre)
+    {
+        try {
+            URL url = new URL("http://wsar.homelinux.com:3100/download_fotos/"+nombre);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(20000);
+            conn.setReadTimeout(20000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                //BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            File file = new File("src/tmpDescargas/"+nombre);
+            copyInputStreamToFile(conn.getInputStream(), file);
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Problemas al Descargar Foto: "+e.getMessage(),"",JOptionPane.WARNING_MESSAGE);
         }
     }
       private static void copyInputStreamToFile(InputStream inputStream, File file)throws IOException {
