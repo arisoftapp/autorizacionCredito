@@ -3,13 +3,16 @@
 
 import complementos.apiAutorizados;
 import complementos.apiSubir;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,7 +32,8 @@ public class Autorizado extends javax.swing.JFrame {
      * Creates new form Autorizado
      */
     public static String param;
-    public Integer id_autorizados;
+    public static Integer pantalla;
+    public Integer id_autorizados=null;
     public File fichero=null;
     apiSubir subirImg=new apiSubir();
     apiAutorizados apiautorizados=new apiAutorizados();
@@ -38,6 +42,10 @@ public class Autorizado extends javax.swing.JFrame {
         //System.out.println("parametro: "+param);
         this.setLocationRelativeTo(null);
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, "src/images/camera.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_doc, "src/images/add-doc.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella, "src/images/finger-scanner.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_nuevo, "src/images/clear.png");
         txt_codigo.setText(param);
         limpiarDirectorio();
     }
@@ -60,6 +68,9 @@ public class Autorizado extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_huella = new javax.swing.JLabel();
+        lbl_guardar = new javax.swing.JLabel();
+        lbl_doc = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
         txt_paterno = new javax.swing.JTextField();
         txt_materno = new javax.swing.JTextField();
@@ -76,36 +87,64 @@ public class Autorizado extends javax.swing.JFrame {
         btn_guardar = new javax.swing.JButton();
         btn_huellas = new javax.swing.JButton();
         btn_documentos = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tb_aurizados = new javax.swing.JTable();
+        txt_id = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        lbl_nuevo = new javax.swing.JLabel();
+        btn_nuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 500));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbl_huella.setText("jLabel7");
+        getContentPane().add(lbl_huella, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 227, 30, 30));
+
+        lbl_guardar.setText("jLabel7");
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 227, 30, 30));
+
+        lbl_doc.setText("jLabel7");
+        getContentPane().add(lbl_doc, new org.netbeans.lib.awtextra.AbsoluteConstraints(493, 227, 30, 30));
 
         txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_nombreKeyReleased(evt);
             }
         });
+        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 53, 130, 30));
 
         txt_paterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_paternoKeyReleased(evt);
             }
         });
+        getContentPane().add(txt_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(342, 53, 130, 30));
 
         txt_materno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_maternoKeyReleased(evt);
             }
         });
+        getContentPane().add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 89, 130, 30));
 
         jLabel1.setText("Apellido Materno:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 89, -1, 30));
 
         jLabel2.setText("Comentarios:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 70, 30));
 
         jLabel3.setText("Apellido Paterno:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 100, 30));
 
         jLabel4.setText("Nombre:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 50, 30));
 
         txt_comentario.setColumns(20);
         txt_comentario.setRows(5);
@@ -116,7 +155,10 @@ public class Autorizado extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txt_comentario);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(342, 89, 210, -1));
+
         lbl_foto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(lbl_foto, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 53, 80, 80));
 
         jButton1.setText("Foto");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -124,100 +166,84 @@ public class Autorizado extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 145, 80, 40));
 
         jLabel5.setText("Codigo:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 5, -1, 30));
 
         txt_codigo.setEditable(false);
+        getContentPane().add(txt_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 5, 130, 30));
 
-        btn_guardar.setText("jButton2");
+        btn_guardar.setText("guardar");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_guardarActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 217, 50, 50));
 
-        btn_huellas.setText("jButton2");
+        btn_huellas.setText("huella");
         btn_huellas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_huellasActionPerformed(evt);
             }
         });
+        getContentPane().add(btn_huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 217, 50, 50));
 
-        btn_documentos.setText("jButton3");
+        btn_documentos.setText("doc");
+        getContentPane().add(btn_documentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(484, 217, 50, 50));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btn_documentos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn_huellas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(txt_materno, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txt_paterno, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                .addComponent(lbl_foto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_paterno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txt_materno, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_huellas, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(btn_documentos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
+        tb_aurizados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nombre", "Estatus"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tb_aurizados);
+        if (tb_aurizados.getColumnModel().getColumnCount() > 0) {
+            tb_aurizados.getColumnModel().getColumn(0).setMinWidth(30);
+            tb_aurizados.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tb_aurizados.getColumnModel().getColumn(0).setMaxWidth(50);
+            tb_aurizados.getColumnModel().getColumn(2).setMinWidth(60);
+            tb_aurizados.getColumnModel().getColumn(2).setPreferredWidth(60);
+            tb_aurizados.getColumnModel().getColumn(2).setMaxWidth(60);
+        }
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 217, -1, 222));
+
+        txt_id.setEditable(false);
+        getContentPane().add(txt_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(342, 5, 130, 30));
+
+        jLabel6.setText("ID:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, -1, 24));
+
+        lbl_nuevo.setText("jLabel7");
+        getContentPane().add(lbl_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(493, 303, 30, 30));
+
+        btn_nuevo.setText("nuevo");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_nuevoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(484, 293, 50, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -251,6 +277,8 @@ public class Autorizado extends javax.swing.JFrame {
         }
         else
         {
+            String nombre=txt_nombre.getText()+" "+txt_paterno.getText()+" "+txt_materno.getText();
+             DefaultTableModel modelo = (DefaultTableModel)tb_aurizados.getModel(); 
             if(txt_paterno.getText().equalsIgnoreCase(""))
             {
                 cuadroDialogo("Ingrese Apellido Paterno");
@@ -268,10 +296,16 @@ public class Autorizado extends javax.swing.JFrame {
                     if(fichero==null)
                     {
                         //cuadroDialogo("sin foto cargada");
-                        
+                               
                         //guardarAutorizadoAync(false);
                         id_autorizados=apiautorizados.insertAutorizados(crearJsonAutorizado("", false));
+                        txt_id.setText(""+id_autorizados);
                         
+                        Object [] fila = new Object[3];
+                        fila[0] = id_autorizados;
+                        fila[1] = nombre;
+                        fila[2] = "ACTIVO";
+                        modelo.addRow ( fila );
                     }
                     else
                     {
@@ -281,7 +315,15 @@ public class Autorizado extends javax.swing.JFrame {
                             if(json.getBoolean("success"))
                             {
                                 //cuadroDialogo(json.getString("nombre"));
+                                
                                 id_autorizados=apiautorizados.insertAutorizados(crearJsonAutorizado(json.getString("nombre"), true));
+                                txt_id.setText(""+id_autorizados);
+                           
+                                 Object [] fila = new Object[3];
+                                 fila[0] = id_autorizados;
+                                 fila[1] = nombre;
+                                 fila[2] = "ACTIVO";
+                                 modelo.addRow ( fila );
                             }
                             else
                             {
@@ -318,13 +360,50 @@ public class Autorizado extends javax.swing.JFrame {
 
     private void btn_huellasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_huellasActionPerformed
         // TODO add your handling code here:
-        CapturaHuella vista=null;
-        vista.codigo=param;
-        vista.nombre=txt_nombre.getText().trim();
-        vista.id_autorizados=id_autorizados;
-        vista=new CapturaHuella();
-        vista.setVisible(true);
+        if(id_autorizados==null)
+        {
+            cuadroDialogo("Falta Guardar Cliente Autorizado");
+        }
+        else
+        {
+            CapturaHuella vista=null;
+            vista.codigo=param;
+            vista.nombre=txt_nombre.getText().trim();
+            vista.id_autorizados=id_autorizados;
+            vista=new CapturaHuella();
+            vista.setVisible(true);
+        }
+        
     }//GEN-LAST:event_btn_huellasActionPerformed
+
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        // TODO add your handling code here:
+        txt_id.setText("");
+        txt_comentario.setText("");
+        txt_materno.setText("");
+        txt_paterno.setText("");
+        txt_nombre.setText("");
+        fichero=null;
+        id_autorizados=null;
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, "src/images/camera.png");
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        System.out.println("si vista modificar");
+        if(pantalla==1)
+        {
+            this.setVisible(false);
+            System.out.println("si vista modificar");
+        }
+        else
+        {
+            System.out.println("no vista modificar");
+         home vhome=new home();
+        vhome.setVisible(true);  
+        }
+        
+    }//GEN-LAST:event_formWindowClosed
     public JSONObject crearJsonAutorizado(String foto,boolean val)
     {
         JSONObject autorizados = new JSONObject();
@@ -417,16 +496,25 @@ public class Autorizado extends javax.swing.JFrame {
     private javax.swing.JButton btn_documentos;
     private javax.swing.JButton btn_guardar;
     private javax.swing.JButton btn_huellas;
+    private javax.swing.JButton btn_nuevo;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_doc;
     private javax.swing.JLabel lbl_foto;
+    private javax.swing.JLabel lbl_guardar;
+    private javax.swing.JLabel lbl_huella;
+    private javax.swing.JLabel lbl_nuevo;
+    private javax.swing.JTable tb_aurizados;
     private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextArea txt_comentario;
+    private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_materno;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_paterno;

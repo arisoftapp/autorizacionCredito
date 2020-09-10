@@ -1,7 +1,13 @@
 
 import complementos.apiClientes;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,11 +28,22 @@ public class BuscarClientes extends javax.swing.JFrame {
      */
     DefaultTableModel completo=null;
     apiClientes apiclientes=new apiClientes();
+    String codigoMacroSelect="";
     public BuscarClientes() {
         initComponents();
         this.setLocationRelativeTo(null);
+        tb_clientes.addMouseListener(new MouseAdapter(){
+            public void mousePressed(MouseEvent mouse_evt)
+                {
+                    JTable tb=(JTable)mouse_evt.getSource();
+                    Point point = mouse_evt.getPoint();
+                    int row=tb.rowAtPoint(point);
+                    codigoMacroSelect=tb.getValueAt(tb.getSelectedRow(), 0).toString();
+                    //System.out.println(""+row);
+                    System.out.println(""+codigoMacroSelect);
+                }
+        });
         DefaultTableModel modelo = (DefaultTableModel)tb_clientes.getModel();
-        completo=modelo;
         JSONObject res=apiclientes.getClientes();
         JSONArray jArray = res.getJSONArray("respuesta");
                  for (int i=0;i<jArray.length();i++){
@@ -34,7 +51,7 @@ public class BuscarClientes extends javax.swing.JFrame {
                         String nombre=obj.getString("nombre")+" "+obj.getString("a_paterno")+" "+obj.getString("a_materno");
                         String codigo=obj.getString("codigoMacro");
                         String puesto=obj.getString("puesto");
-                        System.out.println(codigo);
+                        //System.out.println(codigo);
                         Object [] fila = new Object[3];
                         fila[0] = codigo;
                         fila[1] = nombre;
@@ -57,9 +74,10 @@ public class BuscarClientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_clientes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 350));
+        setPreferredSize(new java.awt.Dimension(500, 400));
 
         txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -102,31 +120,45 @@ public class BuscarClientes extends javax.swing.JFrame {
 
         jLabel1.setText("Nombre:");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 11, Short.MAX_VALUE)
+                .addGap(0, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -134,51 +166,40 @@ public class BuscarClientes extends javax.swing.JFrame {
 
     private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode()==10)
-        {
-            if(txt_nombre.getText().equalsIgnoreCase(""))
-            {
-                JOptionPane.showMessageDialog(null, "Ingresa Nombre");
-            }
-            else
-            {
-               
-                DefaultTableModel modeloaux = (DefaultTableModel)tb_clientes.getModel();
-                if(modeloaux.getRowCount()>0)
-                {
-                    modeloaux.getDataVector().removeAllElements();
-                    modeloaux.fireTableDataChanged();
-                }
-                System.out.println("enter: "+txt_nombre.getText().toUpperCase());
-                for (int i = 0; i < completo.getRowCount(); i++) {
-                    String nombre=completo.getValueAt(i, 1).toString();
-                    if(nombre.contains(txt_nombre.getText().toUpperCase()))
-                    {
-                       Object [] fila = new Object[3];
-                        fila[0] = completo.getValueAt(i, 0);
-                        fila[1] = completo.getValueAt(i, 1);
-                        fila[2] = completo.getValueAt(i, 2);
-                        modeloaux.addRow ( fila );
-                        System.out.println("NOMBRE con filtro: "+completo.getValueAt(i, 1));
-                        
-                    }
-                //System.out.println("Registro número: "+i);
-                //System.out.println("CODIGO: "+modelo.getValueAt(i, 0));
-                //System.out.println("NOMBRE: "+modelo.getValueAt(i, 1));
-                //System.out.println("PUESTO: "+modelo.getValueAt(i, 2));
-                }
-                tb_clientes.setModel(modeloaux);
-            
-            }
-        }
+        //System.out.println(evt.getKeyCode());
         
+         
+                       
     }//GEN-LAST:event_txt_nombreKeyPressed
 
     private void txt_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyReleased
         // TODO add your handling code here:
         txt_nombre.setText(txt_nombre.getText().toUpperCase());
+        completo=(DefaultTableModel)tb_clientes.getModel();
+        TableRowSorter<DefaultTableModel> tr = new TableRowSorter<>(completo);
+        tb_clientes.setRowSorter(tr);
+        tr.setRowFilter(RowFilter.regexFilter(txt_nombre.getText(), 1));
     }//GEN-LAST:event_txt_nombreKeyReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(codigoMacroSelect.equalsIgnoreCase(""))
+        {
+            JOptionPane.showMessageDialog(null, "no ha seleccionado Cliente");
+        }
+        else
+        {
+            System.out.println(codigoMacroSelect);
+            ModificarAutorizados vista=null;
+            vista.codigoMacroSelect=codigoMacroSelect;
+            vista=new ModificarAutorizados();
+            vista.setVisible(true);
+            this.setVisible(false);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -212,9 +233,11 @@ public class BuscarClientes extends javax.swing.JFrame {
                 new BuscarClientes().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tb_clientes;

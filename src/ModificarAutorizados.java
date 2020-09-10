@@ -1,8 +1,13 @@
 
 import complementos.apiClientes;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -21,13 +26,38 @@ public class ModificarAutorizados extends javax.swing.JFrame {
      * Creates new form ModificarAutorizados
      */
     //variables
-    BuscarClientes vistaBC=null;
+   
         apiClientes apiclientes=new apiClientes();
+        public static String codigoMacroSelect;
+        String idAutorizado="";
     public ModificarAutorizados() {
-
-       
         initComponents();
         this.setLocationRelativeTo(null);
+        tb_autorizados.addMouseListener(new MouseAdapter(){
+            public void mousePressed(MouseEvent mouse_evt)
+                {
+                    JTable tb=(JTable)mouse_evt.getSource();
+                    Point point = mouse_evt.getPoint();
+                    int row=tb.rowAtPoint(point);
+                    idAutorizado=tb.getValueAt(tb.getSelectedRow(), 0).toString();
+                    //System.out.println(""+row);
+                    System.out.println(""+codigoMacroSelect);
+                }
+        });
+        System.out.println("Codigo Macro select "+codigoMacroSelect);
+        try {
+         if(codigoMacroSelect.equalsIgnoreCase(""))
+        {
+            
+        }
+        else
+        {
+            txt_codigo.setText(codigoMacroSelect);
+        }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        
     }
 
     /**
@@ -51,16 +81,36 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btn_consultar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_comentarios = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_autorizados = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("Codigo MacroPro:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, -1, -1));
+
+        txt_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_codigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_codigoKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txt_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 12, 100, -1));
 
         jButton1.setText("Buscar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -68,27 +118,69 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(315, 11, -1, -1));
 
-        jLabel2.setText("Nombre:");
-
-        jLabel3.setText("Apellido Paterno:");
-
-        jLabel4.setText("Apellido Materno:");
-
-        jLabel5.setText("Puesto:");
-
-        jLabel6.setText("Comentarios:");
-
-        jButton2.setText("Consultar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyReleased(evt);
             }
         });
+        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 52, 100, -1));
+
+        txt_materno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_maternoKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 100, -1));
+
+        txt_paterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_paternoKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txt_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 100, -1));
+
+        txt_puesto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_puestoKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txt_puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 100, -1));
+
+        jLabel2.setText("Nombre:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 55, -1, -1));
+
+        jLabel3.setText("Apellido Paterno:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, -1));
+
+        jLabel4.setText("Apellido Materno:");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
+
+        jLabel5.setText("Puesto:");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 93, -1, -1));
+
+        jLabel6.setText("Comentarios:");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
+
+        btn_consultar.setText("Consultar");
+        btn_consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_consultarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(223, 11, -1, -1));
 
         txt_comentarios.setColumns(20);
         txt_comentarios.setRows(5);
+        txt_comentarios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_comentariosKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(txt_comentarios);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, 306, -1));
 
         tb_autorizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,80 +215,40 @@ public class ModificarAutorizados extends javax.swing.JFrame {
             tb_autorizados.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_nombre)
-                            .addComponent(txt_codigo)
-                            .addComponent(txt_puesto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel3)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txt_paterno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_materno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1)
-                            .addComponent(jButton1)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(80, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_paterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_materno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(txt_puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 204, -1, 144));
+
+        jButton3.setText("Editar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 204, 63, 61));
+
+        jButton4.setText("Agregar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(541, 204, 63, 61));
+
+        jButton5.setText("Guardar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(614, 204, 63, 61));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarActionPerformed
         // TODO add your handling code here:
-        limpiarCampos();
+        if(txt_codigo.isEditable())
+        {
+            limpiarCampos();
         if(txt_codigo.getText().equalsIgnoreCase(""))
         {
             cuadroDialogo("Ingrese Codigo");
@@ -208,11 +260,16 @@ public class ModificarAutorizados extends javax.swing.JFrame {
             JSONObject resCli=new JSONObject();
              DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
             respuesta=apiclientes.getCliente(txt_codigo.getText().toString().trim());
-                  JSONArray jArray = respuesta.getJSONArray("respuesta");
+            if(respuesta.getBoolean("success"))
+            {
+                txt_codigo.setEditable(false);
+                btn_consultar.setText("habilitar");
+                JSONArray jArray = respuesta.getJSONArray("respuesta");
                  for (int i=0;i<jArray.length();i++){
                         resCli = jArray.getJSONObject(i);       
                 }
                  JSONArray arrayAu = respuesta.getJSONArray("autorizados");
+                 System.out.println("array autorizados lengh "+arrayAu.length());
                  for (int i=0;i<arrayAu.length();i++){
                         //resCli = arrayAu.getJSONObject(i);    
                         JSONObject obj=arrayAu.getJSONObject(i);
@@ -231,19 +288,142 @@ public class ModificarAutorizados extends javax.swing.JFrame {
             txt_materno.setText(resCli.getString("a_materno"));
             txt_puesto.setText(resCli.getString("puesto"));
             txt_comentarios.setText(resCli.getString("comentarios"));
+            }
+      
+          
+                  
             //cuadroDialogo(respuesta.toString());
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+        }
+        else
+        {
+            txt_codigo.setEditable(true);
+            btn_consultar.setText("consultar");
+            txt_codigo.setText("");
+            txt_codigo.setFocusable(true);
+            limpiarCampos();
+        }
+        
+    }//GEN-LAST:event_btn_consultarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //JSONObject res =  apiclientes.getClientes();
         //cuadroDialogo(res.toString());
-        vistaBC=new BuscarClientes();
+        
+        BuscarClientes vistaBC=new BuscarClientes();
         vistaBC.setVisible(true);
+        this.setVisible(false);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txt_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyReleased
+        // TODO add your handling code here:
+        txt_nombre.setText(txt_nombre.getText().toUpperCase());
+    }//GEN-LAST:event_txt_nombreKeyReleased
+
+    private void txt_paternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_paternoKeyReleased
+        // TODO add your handling code here:
+        txt_paterno.setText(txt_paterno.getText().toUpperCase());
+    }//GEN-LAST:event_txt_paternoKeyReleased
+
+    private void txt_maternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_maternoKeyReleased
+        // TODO add your handling code here:
+        txt_materno.setText(txt_materno.getText().toUpperCase());
+    }//GEN-LAST:event_txt_maternoKeyReleased
+
+    private void txt_puestoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_puestoKeyReleased
+        // TODO add your handling code here:
+        txt_puesto.setText(txt_puesto.getText().toUpperCase());
+    }//GEN-LAST:event_txt_puestoKeyReleased
+
+    private void txt_comentariosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_comentariosKeyReleased
+        // TODO add your handling code here:
+        txt_comentarios.setText(txt_comentarios.getText().toUpperCase());
+    }//GEN-LAST:event_txt_comentariosKeyReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        if(idAutorizado.equalsIgnoreCase(""))
+        {
+            cuadroDialogo("No ha seleccionado autorizado");
+        }
+        else
+        {
+            
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        home v_home=new home();
+        v_home.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if(txt_codigo.getText().equalsIgnoreCase(""))
+        {
+            cuadroDialogo("Ingrese Codigo");
+        }
+        else
+        {
+            if(txt_nombre.getText().equalsIgnoreCase(""))
+            {
+                
+            }
+        }
+        if(apiclientes.modificarCliente(crearJson()))
+        {
+            
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        if(txt_codigo.getText().equalsIgnoreCase(""))
+        {
+            cuadroDialogo("Consulte Cliente");
+        }
+        else
+        {
+            Autorizado vista=null;
+            vista.param=txt_codigo.getText().toString().trim();
+            vista.pantalla=1;
+            vista=new Autorizado(); 
+            vista.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+private int limite  = 10;
+    private void txt_codigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoKeyReleased
+        // TODO add your handling code here:
+        txt_codigo.setText(txt_codigo.getText().toUpperCase());
+    }//GEN-LAST:event_txt_codigoKeyReleased
+
+    private void txt_codigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoKeyTyped
+        // TODO add your handling code here:
+        if (txt_codigo.getText().length()== limite)
+     evt.consume();
+    }//GEN-LAST:event_txt_codigoKeyTyped
+
+    public JSONObject crearJson()
+    {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("codigoMacro",txt_codigo.getText().trim());
+            obj.put("nombre", txt_nombre.getText().trim());
+            obj.put("a_paterno",txt_paterno.getText().trim());
+            obj.put("a_materno", txt_materno.getText().trim());
+            obj.put("puesto",txt_puesto.getText().trim());
+            obj.put("comentarios", txt_comentarios.getText().trim());
+            }
+        catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        return obj;
+    }
     public void limpiarCampos()
     {
         txt_nombre.setText("");
@@ -299,8 +479,11 @@ public class ModificarAutorizados extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_consultar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -310,6 +310,11 @@ lbl_huella.setIcon(
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(700, 350));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lbl_foto.setText("jLabel1");
         lbl_foto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -388,6 +393,14 @@ lbl_huella.setIcon(
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        stop();
+        home v_home=new home();
+        v_home.setVisible(true);
+        //this.dispose();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

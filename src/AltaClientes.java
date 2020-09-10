@@ -44,7 +44,7 @@ public class AltaClientes extends javax.swing.JFrame {
           rsscalelabel.RSScaleLabel.setScaleLabel(add, "src/images/plus.png");
           //jtp_main.setEnabledAt(1, false);
           //jtp_main.setEnabledAt(2, false);
-          
+          System.out.println("alta");
           
     }
 
@@ -62,8 +62,6 @@ public class AltaClientes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         add = new javax.swing.JLabel();
         save = new javax.swing.JLabel();
         btn_add = new javax.swing.JButton();
@@ -82,9 +80,14 @@ public class AltaClientes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 400));
-        setPreferredSize(new java.awt.Dimension(700, 500));
+        setPreferredSize(new java.awt.Dimension(700, 400));
         setResizable(false);
-        setSize(new java.awt.Dimension(700, 500));
+        setSize(new java.awt.Dimension(700, 400));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setText("ID:");
@@ -106,23 +109,8 @@ public class AltaClientes extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Autorizados"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-        }
-
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, 140));
-
         add.setText("jLabel2");
-        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 30, 30));
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, 30, 30));
         jPanel1.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 30, 30));
 
         btn_add.setText("jButton3");
@@ -131,7 +119,7 @@ public class AltaClientes extends javax.swing.JFrame {
                 btn_addActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, 50, 50));
+        jPanel1.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 200, 50, 50));
 
         btn_guardar_cliente.setText("Guardar");
         btn_guardar_cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -321,6 +309,11 @@ private int limite  = 10;
          {
              guardar=true;
           desactivarCompClientes();
+          vista.param=txt_codigo.getText().toString().trim();
+          vista=new Autorizado();
+          this.setVisible(false);
+          vista.setVisible(true);
+          
          }
          
     }
@@ -363,12 +356,13 @@ private int limite  = 10;
                         if(vista==null)
                         {
                             System.out.println("Abrir ventada");
+                            vista.pantalla=2;
                             vista.param=txt_codigo.getText().toString().trim();
                             vista=new Autorizado();
                             if(guardar==false)
                             {
                                 cuadroDialogo("Falta Guardar Cliente");
-                                vista.setVisible(true);
+                                //vista.setVisible(true);
                             }
                             else
                             {
@@ -383,12 +377,14 @@ private int limite  = 10;
                             }
                             else
                             {
+                                vista.pantalla=2;
                                 vista.param=txt_codigo.getText().toString().trim();
                                 vista=new Autorizado();
                                 if(guardar==false)
                                 {
                                     cuadroDialogo("Falta Guardar Cliente"); 
                                     vista.setVisible(true);
+                                    this.setVisible(false);
                                 }
                                 else
                                 {
@@ -429,6 +425,12 @@ private int limite  = 10;
         // TODO add your handling code here:
         txt_comentarios.setText(txt_comentarios.getText().toUpperCase());
     }//GEN-LAST:event_txt_comentariosKeyReleased
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        home v_home=new home();
+        v_home.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -485,8 +487,6 @@ private int limite  = 10;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel save;
     private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextArea txt_comentarios;

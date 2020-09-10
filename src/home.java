@@ -144,7 +144,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         //this.setVisible(false);
         //AltaClientes vista=new AltaClientes();
-    
+        this.setVisible(false);
         AltaClientes vista=new AltaClientes();
         vista.setVisible(true);
     
@@ -197,9 +197,10 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
 
        //this.setVisible(false);
-       this.setVisible(false);
+      
         ModificarAutorizados vh=new ModificarAutorizados();
         vh.setVisible(true);
+         this.setVisible(false);
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
