@@ -122,6 +122,7 @@ public class Login extends javax.swing.JFrame {
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inicio Sesion");
         setMaximumSize(new java.awt.Dimension(500, 500));
         setMinimumSize(new java.awt.Dimension(500, 500));
         setName("Login"); // NOI18N
@@ -180,7 +181,7 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
             //this.setVisible(false);
-             this.dispose();
+             
         Thread t = new asynTaskLogin();
         t.start();
          //System.out.println(""+consultas.buscarPorUsuario(txt_usuario.getText().toString().trim()));
@@ -234,6 +235,8 @@ public class Login extends javax.swing.JFrame {
         boolean val=false;
         String token="";
         String ruta="";
+        Integer id_empresa=0;
+        String nom_empresa="";
          try {
             System.out.print(crearJsonLogin().toString());
             URL url = new URL("http://wsar.homelinux.com:3100/login");//your url i.e fetch data from .
@@ -266,6 +269,8 @@ public class Login extends javax.swing.JFrame {
                    val=true;
                    token=jObject.getString("token");
                   ruta=jObject.getString("ruta");
+                  id_empresa=jObject.getInt("id_empresa");
+                  nom_empresa=jObject.getString("empresa");
                }
                else
                {
@@ -283,11 +288,11 @@ public class Login extends javax.swing.JFrame {
          {
              if(consultas.buscarPorUsuario(txt_usuario.getText().toString().trim())==true)
              {
-                 consultas.update(txt_usuario.getText().trim(),token, val, ruta);
+                 consultas.update(txt_usuario.getText().trim(),token, val, ruta,id_empresa,nom_empresa);
              }
              else
              {
-                 consultas.insertBD(txt_usuario.getText().toString().trim(), token, true,ruta);
+                 consultas.insertBD(txt_usuario.getText().toString().trim(), token, true,ruta,id_empresa,nom_empresa);
              }
              
              //setPropertyValue("usuario",txt_usuario.getText().toString());

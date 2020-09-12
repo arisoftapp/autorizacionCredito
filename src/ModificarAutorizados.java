@@ -33,6 +33,11 @@ public class ModificarAutorizados extends javax.swing.JFrame {
     public ModificarAutorizados() {
         initComponents();
         this.setLocationRelativeTo(null);
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_agregar, "src/images/plus.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_editar, "src/images/register.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_ok, "src/images/tick.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_busqueda, "src/images/lupa.png");
         tb_autorizados.addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent mouse_evt)
                 {
@@ -69,7 +74,9 @@ public class ModificarAutorizados extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_ok = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        lbl_busqueda = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         txt_nombre = new javax.swing.JTextField();
@@ -81,6 +88,9 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        lbl_guardar = new javax.swing.JLabel();
+        lbl_agregar = new javax.swing.JLabel();
+        lbl_editar = new javax.swing.JLabel();
         btn_consultar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_comentarios = new javax.swing.JTextArea();
@@ -99,8 +109,14 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbl_ok.setText("jLabel7");
+        getContentPane().add(lbl_ok, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 15, 30, 30));
+
         jLabel1.setText("Codigo MacroPro:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        lbl_busqueda.setText("jLabel7");
+        getContentPane().add(lbl_busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 15, 30, 30));
 
         txt_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -110,7 +126,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 txt_codigoKeyTyped(evt);
             }
         });
-        getContentPane().add(txt_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 12, 100, -1));
+        getContentPane().add(txt_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 100, -1));
 
         jButton1.setText("Buscar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -118,50 +134,59 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(315, 11, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 5, 50, 50));
 
         txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_nombreKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 52, 100, -1));
+        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 100, -1));
 
         txt_materno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_maternoKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, 100, -1));
+        getContentPane().add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 60, 100, -1));
 
         txt_paterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_paternoKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 50, 100, -1));
+        getContentPane().add(txt_paterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 60, 100, -1));
 
         txt_puesto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_puestoKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 100, -1));
+        getContentPane().add(txt_puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 100, -1));
 
         jLabel2.setText("Nombre:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 55, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
 
         jLabel3.setText("Apellido Paterno:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
 
         jLabel4.setText("Apellido Materno:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, -1, -1));
 
         jLabel5.setText("Puesto:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 93, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
 
         jLabel6.setText("Comentarios:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
+
+        lbl_guardar.setText("jLabel7");
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 220, 30, 30));
+
+        lbl_agregar.setText("jLabel7");
+        getContentPane().add(lbl_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 220, 30, 30));
+
+        lbl_editar.setText("jLabel7");
+        getContentPane().add(lbl_editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 30, 30));
 
         btn_consultar.setText("Consultar");
         btn_consultar.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +194,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 btn_consultarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(223, 11, -1, -1));
+        getContentPane().add(btn_consultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 5, 50, 50));
 
         txt_comentarios.setColumns(20);
         txt_comentarios.setRows(5);
@@ -180,7 +205,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txt_comentarios);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, 306, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 306, -1));
 
         tb_autorizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -223,7 +248,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 204, 63, 61));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 50, 50));
 
         jButton4.setText("Agregar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -231,7 +256,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(541, 204, 63, 61));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 50, 50));
 
         jButton5.setText("Guardar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -239,7 +264,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(614, 204, 63, 61));
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 210, 50, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -492,6 +517,11 @@ private int limite  = 10;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_agregar;
+    private javax.swing.JLabel lbl_busqueda;
+    private javax.swing.JLabel lbl_editar;
+    private javax.swing.JLabel lbl_guardar;
+    private javax.swing.JLabel lbl_ok;
     private javax.swing.JTable tb_autorizados;
     private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextArea txt_comentarios;

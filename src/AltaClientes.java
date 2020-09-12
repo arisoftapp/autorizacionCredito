@@ -41,7 +41,6 @@ public class AltaClientes extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
           rsscalelabel.RSScaleLabel.setScaleLabel(save, "src/images/save.png");
-          rsscalelabel.RSScaleLabel.setScaleLabel(add, "src/images/plus.png");
           //jtp_main.setEnabledAt(1, false);
           //jtp_main.setEnabledAt(2, false);
           System.out.println("alta");
@@ -62,9 +61,7 @@ public class AltaClientes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        add = new javax.swing.JLabel();
         save = new javax.swing.JLabel();
-        btn_add = new javax.swing.JButton();
         btn_guardar_cliente = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txt_materno = new javax.swing.JTextField();
@@ -79,10 +76,11 @@ public class AltaClientes extends javax.swing.JFrame {
         txt_comentarios = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Alta Clientes");
         setMinimumSize(new java.awt.Dimension(700, 400));
-        setPreferredSize(new java.awt.Dimension(700, 400));
+        setPreferredSize(new java.awt.Dimension(700, 350));
         setResizable(false);
-        setSize(new java.awt.Dimension(700, 400));
+        setSize(new java.awt.Dimension(700, 350));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -108,18 +106,7 @@ public class AltaClientes extends javax.swing.JFrame {
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        add.setText("jLabel2");
-        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, 30, 30));
         jPanel1.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 210, 30, 30));
-
-        btn_add.setText("jButton3");
-        btn_add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_addActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_add, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 200, 50, 50));
 
         btn_guardar_cliente.setText("Guardar");
         btn_guardar_cliente.addActionListener(new java.awt.event.ActionListener() {
@@ -261,6 +248,7 @@ private int limite  = 10;
         
         boolean validar=false;
         String token=consultasBD.getToken();
+        
         //System.out.print(token);
          try {
             URL url = new URL("http://wsar.homelinux.com:3100/insertarCliente");//your url i.e fetch data from .
@@ -309,6 +297,7 @@ private int limite  = 10;
          {
              guardar=true;
           desactivarCompClientes();
+          vista.pantalla=0;
           vista.param=txt_codigo.getText().toString().trim();
           vista=new Autorizado();
           this.setVisible(false);
@@ -338,6 +327,7 @@ private int limite  = 10;
             obj.put("a_materno", txt_materno.getText().trim());
             obj.put("puesto",txt_puesto.getText().trim());
             obj.put("comentarios", txt_comentarios.getText().trim());
+            obj.put("id_empresa", consultasBD.getIdEmpresa());
             }
         catch (JSONException e)
             {
@@ -349,57 +339,6 @@ private int limite  = 10;
     {
           JOptionPane.showMessageDialog(null, mensaje);
     }
-    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        // TODO add your handling code here:
-        //System.out.println(vista);
-                    try{
-                        if(vista==null)
-                        {
-                            System.out.println("Abrir ventada");
-                            vista.pantalla=2;
-                            vista.param=txt_codigo.getText().toString().trim();
-                            vista=new Autorizado();
-                            if(guardar==false)
-                            {
-                                cuadroDialogo("Falta Guardar Cliente");
-                                //vista.setVisible(true);
-                            }
-                            else
-                            {
-                                vista.setVisible(true);
-                            }
-                        }
-                        else
-                        {
-                            if(vista.isShowing())
-                            {
-                                System.out.println("Vista abierta");
-                            }
-                            else
-                            {
-                                vista.pantalla=2;
-                                vista.param=txt_codigo.getText().toString().trim();
-                                vista=new Autorizado();
-                                if(guardar==false)
-                                {
-                                    cuadroDialogo("Falta Guardar Cliente"); 
-                                    vista.setVisible(true);
-                                    this.setVisible(false);
-                                }
-                                else
-                                {
-                                    vista.setVisible(true);
-                                }
-                            }
-                        }
-            }catch(Exception e)
-            {
-                System.err.println(e.getMessage());
-            }
-        
-        
-    }//GEN-LAST:event_btn_addActionPerformed
-
 
     private void txt_nombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyReleased
         // TODO add your handling code here:
@@ -474,8 +413,6 @@ private int limite  = 10;
     boolean guardar=false;
     Autorizado vista=null;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel add;
-    private javax.swing.JButton btn_add;
     private javax.swing.JButton btn_guardar_cliente;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;

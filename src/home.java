@@ -46,11 +46,14 @@ public class home extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
          rsscalelabel.RSScaleLabel.setScaleLabel(img_clientes, "src/images/persona.png");
-         //rsscalelabel.RSScaleLabel.setScaleLabel(img_clientes,"");
-        
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_mod, "src/images/register.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_verificar, "src/images/fingerprint.png");
          rsscalelabel.RSScaleLabel.setScaleLabel(img_logout, "src/images/logout.png");
           usuario=consultasBD.getUsuario();
+          id_empresa=consultasBD.getIdEmpresa();
+          nom_empresa=consultasBD.getNombreEmpresa();
           System.out.println(usuario);
+          lbl_empresa.setText(" "+id_empresa+" - "+nom_empresa);
     }
 
     /**
@@ -62,24 +65,29 @@ public class home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_verificar = new javax.swing.JLabel();
+        lbl_mod = new javax.swing.JLabel();
         img_clientes = new javax.swing.JLabel();
         img_logout = new javax.swing.JLabel();
         btn_alta = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         btn_salir = new javax.swing.JButton();
         btn_verificar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lbl_empresa = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Verificar Autorizado");
-        setPreferredSize(new java.awt.Dimension(700, 500));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Home");
+        setPreferredSize(new java.awt.Dimension(700, 400));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(img_clientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 80, 80));
-        getContentPane().add(img_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 170, 80, 80));
+        getContentPane().add(lbl_verificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 70, 70));
+        getContentPane().add(lbl_mod, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 50, 70, 70));
+        getContentPane().add(img_clientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 70, 70));
+        getContentPane().add(img_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 170, 70, 70));
 
         btn_alta.setText("Alta de Cliente");
         btn_alta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -93,15 +101,15 @@ public class home extends javax.swing.JFrame {
         getContentPane().add(btn_alta, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 200, 100));
 
         jButton3.setText("Modificar Cliente");
+        jButton3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton3.setMargin(new java.awt.Insets(2, 14, 15, 14));
+        jButton3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 40, 200, 100));
-
-        jButton2.setText("jButton1");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(475, 40, 200, 100));
 
         btn_salir.setText("Cerrar Sesion");
         btn_salir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -114,13 +122,22 @@ public class home extends javax.swing.JFrame {
         });
         getContentPane().add(btn_salir, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 200, 100));
 
-        btn_verificar.setText("Verificar");
+        btn_verificar.setText("Verificar Huella");
+        btn_verificar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_verificar.setMargin(new java.awt.Insets(2, 14, 15, 14));
+        btn_verificar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btn_verificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_verificarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_verificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 200, 100));
+        getContentPane().add(btn_verificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 40, 200, 100));
+
+        jLabel1.setText("Empresa:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        lbl_empresa.setText("empresa");
+        getContentPane().add(lbl_empresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
 
         jMenu1.setText("Clientes");
 
@@ -256,17 +273,21 @@ public class home extends javax.swing.JFrame {
     consultasApi consultasApi=new consultasApi();
     consultasBD consultasBD=new consultasBD();
     String usuario="";
-
+    Integer id_empresa=0;
+    String nom_empresa="";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_alta;
     private javax.swing.JButton btn_salir;
     private javax.swing.JButton btn_verificar;
     private javax.swing.JLabel img_clientes;
     private javax.swing.JLabel img_logout;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JLabel lbl_empresa;
+    private javax.swing.JLabel lbl_mod;
+    private javax.swing.JLabel lbl_verificar;
     // End of variables declaration//GEN-END:variables
 }

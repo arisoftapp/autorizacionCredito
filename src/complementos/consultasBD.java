@@ -27,28 +27,28 @@ import javax.swing.JOptionPane;
 public class consultasBD {
     conexionBD con=new conexionBD();
     Connection conexion=con.conectar();
-      public void insertBD(String usuario,String token,boolean sesion,String ruta)
+      public void insertBD(String usuario,String token,boolean sesion,String ruta,Integer id_empresa,String nom_empresa)
     {
         conexion=con.conectar();
           try {
               
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
-          comando.executeUpdate("insert into usuario(nom_usuario,token,sesion,ruta) values ('"+usuario+"','"+token+"',"+sesion+",'"+ruta+"')");
+          comando.executeUpdate("insert into usuario(nom_usuario,token,sesion,ruta,id_empresa,nom_empresa) values ('"+usuario+"','"+token+"',"+sesion+",'"+ruta+"',"+id_empresa+",'"+nom_empresa+"')");
           conexion.close();
           System.out.println("se inserto");
         } catch(SQLException ex){
           System.out.println("error:"+ex);
         }
     }
-           public void update(String usuario,String token,boolean sesion,String ruta)
+           public void update(String usuario,String token,boolean sesion,String ruta,Integer id_empresa,String nom_empresa)
     {
         conexion=con.conectar();
           try {
           //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           PreparedStatement stmt;
-          stmt = conexion.prepareStatement("UPDATE usuario SET token='"+token+"',ruta='"+ruta+"',sesion='"+sesion+"' WHERE nom_usuario='"+usuario+"'");
+          stmt = conexion.prepareStatement("UPDATE usuario SET token='"+token+"',ruta='"+ruta+"',sesion='"+sesion+"',id_empresa="+id_empresa+",nom_empresa='"+nom_empresa+"' WHERE nom_usuario='"+usuario+"'");
           int retorno = stmt.executeUpdate();
           if(retorno==1)
           {
@@ -97,6 +97,52 @@ public class consultasBD {
           ResultSet registro = comando.executeQuery("select * from usuario");
 	  if (registro.next()==true) {
             res=registro.getString("nom_usuario");
+            System.out.println(res);
+             System.out.println("encontro");
+	  } else {
+	
+          System.out.println("no encontro");
+	  }
+          conexion.close();
+         
+        } catch(SQLException ex){
+          System.out.println("error:"+ex);
+        }
+          return res;
+      }
+      public Integer getIdEmpresa()
+      {
+          conexion=con.conectar();
+          Integer res=0;
+                     try {
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          Statement comando=(Statement) conexion.createStatement();
+          ResultSet registro = comando.executeQuery("select * from usuario");
+	  if (registro.next()==true) {
+            res=registro.getInt("id_empresa");
+            System.out.println(res);
+             System.out.println("encontro");
+	  } else {
+	
+          System.out.println("no encontro");
+	  }
+          conexion.close();
+         
+        } catch(SQLException ex){
+          System.out.println("error:"+ex);
+        }
+          return res;
+      }
+      public String getNombreEmpresa()
+      {
+          conexion=con.conectar();
+          String res="";
+                     try {
+          //Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
+          Statement comando=(Statement) conexion.createStatement();
+          ResultSet registro = comando.executeQuery("select * from usuario");
+	  if (registro.next()==true) {
+            res=registro.getString("nom_empresa");
             System.out.println(res);
              System.out.println("encontro");
 	  } else {

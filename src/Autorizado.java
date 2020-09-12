@@ -46,6 +46,7 @@ public class Autorizado extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_doc, "src/images/add-doc.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella, "src/images/finger-scanner.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_nuevo, "src/images/clear.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_btnfoto, "src/images/picture.png");
         txt_codigo.setText(param);
         limpiarDirectorio();
     }
@@ -68,6 +69,7 @@ public class Autorizado extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_btnfoto = new javax.swing.JLabel();
         lbl_huella = new javax.swing.JLabel();
         lbl_guardar = new javax.swing.JLabel();
         lbl_doc = new javax.swing.JLabel();
@@ -95,6 +97,7 @@ public class Autorizado extends javax.swing.JFrame {
         btn_nuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Autorizados");
         setPreferredSize(new java.awt.Dimension(700, 500));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -104,14 +107,17 @@ public class Autorizado extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbl_btnfoto.setText("jLabel7");
+        getContentPane().add(lbl_btnfoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 150, 30, 30));
+
         lbl_huella.setText("jLabel7");
-        getContentPane().add(lbl_huella, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 227, 30, 30));
+        getContentPane().add(lbl_huella, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, 30, 30));
 
         lbl_guardar.setText("jLabel7");
-        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 227, 30, 30));
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 230, 30, 30));
 
         lbl_doc.setText("jLabel7");
-        getContentPane().add(lbl_doc, new org.netbeans.lib.awtextra.AbsoluteConstraints(493, 227, 30, 30));
+        getContentPane().add(lbl_doc, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 230, 30, 30));
 
         txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -166,7 +172,7 @@ public class Autorizado extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 145, 80, 40));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 140, 50, 50));
 
         jLabel5.setText("Codigo:");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 5, -1, 30));
@@ -180,7 +186,7 @@ public class Autorizado extends javax.swing.JFrame {
                 btn_guardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 217, 50, 50));
+        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, 50, 50));
 
         btn_huellas.setText("huella");
         btn_huellas.addActionListener(new java.awt.event.ActionListener() {
@@ -188,10 +194,10 @@ public class Autorizado extends javax.swing.JFrame {
                 btn_huellasActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 217, 50, 50));
+        getContentPane().add(btn_huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 220, 50, 50));
 
         btn_documentos.setText("doc");
-        getContentPane().add(btn_documentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(484, 217, 50, 50));
+        getContentPane().add(btn_documentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 50, 50));
 
         tb_aurizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -235,7 +241,7 @@ public class Autorizado extends javax.swing.JFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, -1, 24));
 
         lbl_nuevo.setText("jLabel7");
-        getContentPane().add(lbl_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(493, 303, 30, 30));
+        getContentPane().add(lbl_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 230, 30, 30));
 
         btn_nuevo.setText("nuevo");
         btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -243,7 +249,7 @@ public class Autorizado extends javax.swing.JFrame {
                 btn_nuevoActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(484, 293, 50, 50));
+        getContentPane().add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 220, 50, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -390,7 +396,7 @@ public class Autorizado extends javax.swing.JFrame {
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
-        System.out.println("si vista modificar");
+        System.out.println(pantalla);
         if(pantalla==1)
         {
             this.setVisible(false);
@@ -506,6 +512,7 @@ public class Autorizado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_btnfoto;
     private javax.swing.JLabel lbl_doc;
     private javax.swing.JLabel lbl_foto;
     private javax.swing.JLabel lbl_guardar;

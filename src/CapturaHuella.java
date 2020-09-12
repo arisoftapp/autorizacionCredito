@@ -91,6 +91,7 @@ public class CapturaHuella extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
         System.out.println(codigo+" "+nombre);
     }
      protected void Iniciar(){
@@ -254,8 +255,8 @@ public void DibujarHuella(Image image){
         rb3 = new javax.swing.JRadioButton();
         rb4 = new javax.swing.JRadioButton();
         rb5 = new javax.swing.JRadioButton();
+        lbl_guardar = new javax.swing.JLabel();
         btn_guardar = new javax.swing.JButton();
-        btn_guardar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(500, 520));
@@ -264,29 +265,33 @@ public void DibujarHuella(Image image){
                 formWindowClosed(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txt_Area.setEditable(false);
         txt_Area.setColumns(20);
         txt_Area.setRows(5);
         jScrollPane1.setViewportView(txt_Area);
 
-        lbl_icono5.setText("jLabel1");
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 300, 461, 100));
+
         lbl_icono5.setPreferredSize(new java.awt.Dimension(50, 50));
+        getContentPane().add(lbl_icono5, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 37, -1, -1));
 
-        lbl_icono2.setText("jLabel1");
         lbl_icono2.setPreferredSize(new java.awt.Dimension(50, 50));
+        getContentPane().add(lbl_icono2, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 37, -1, -1));
 
-        lbl_icono1.setText("jLabel1");
         lbl_icono1.setPreferredSize(new java.awt.Dimension(50, 50));
+        getContentPane().add(lbl_icono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 37, -1, -1));
 
-        lbl_icono3.setText("jLabel1");
         lbl_icono3.setPreferredSize(new java.awt.Dimension(50, 50));
+        getContentPane().add(lbl_icono3, new org.netbeans.lib.awtextra.AbsoluteConstraints(216, 37, -1, -1));
 
-        lbl_icono4.setText("jLabel1");
         lbl_icono4.setPreferredSize(new java.awt.Dimension(50, 50));
+        getContentPane().add(lbl_icono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(284, 37, -1, -1));
 
         lbl_huella1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         lbl_huella1.setPreferredSize(new java.awt.Dimension(50, 50));
+        getContentPane().add(lbl_huella1, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 118, 167, 171));
 
         grupoHuella.add(rb1);
         rb1.addItemListener(new java.awt.event.ItemListener() {
@@ -294,6 +299,7 @@ public void DibujarHuella(Image image){
                 rb1ItemStateChanged(evt);
             }
         });
+        getContentPane().add(rb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
 
         grupoHuella.add(rb2);
         rb2.addItemListener(new java.awt.event.ItemListener() {
@@ -301,6 +307,7 @@ public void DibujarHuella(Image image){
                 rb2ItemStateChanged(evt);
             }
         });
+        getContentPane().add(rb2, new org.netbeans.lib.awtextra.AbsoluteConstraints(158, 90, -1, -1));
 
         grupoHuella.add(rb3);
         rb3.addItemListener(new java.awt.event.ItemListener() {
@@ -308,6 +315,7 @@ public void DibujarHuella(Image image){
                 rb3ItemStateChanged(evt);
             }
         });
+        getContentPane().add(rb3, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 90, -1, -1));
 
         grupoHuella.add(rb4);
         rb4.addItemListener(new java.awt.event.ItemListener() {
@@ -315,6 +323,7 @@ public void DibujarHuella(Image image){
                 rb4ItemStateChanged(evt);
             }
         });
+        getContentPane().add(rb4, new org.netbeans.lib.awtextra.AbsoluteConstraints(294, 90, -1, -1));
 
         grupoHuella.add(rb5);
         rb5.addItemListener(new java.awt.event.ItemListener() {
@@ -322,6 +331,8 @@ public void DibujarHuella(Image image){
                 rb5ItemStateChanged(evt);
             }
         });
+        getContentPane().add(rb5, new org.netbeans.lib.awtextra.AbsoluteConstraints(362, 89, -1, -1));
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(441, 435, 30, 30));
 
         btn_guardar.setText("jButton1");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -329,94 +340,7 @@ public void DibujarHuella(Image image){
                 btn_guardarActionPerformed(evt);
             }
         });
-
-        btn_guardar1.setText("jButton1");
-        btn_guardar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_guardar1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_icono1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(rb1)))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_icono2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(rb2)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_icono3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(rb3)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_icono4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(rb4))))
-                    .addComponent(lbl_huella1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(rb5))
-                    .addComponent(lbl_icono5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_guardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_icono3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_icono4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_icono1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_icono2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_icono5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(rb1)
-                            .addComponent(rb2)
-                            .addComponent(rb3)
-                            .addComponent(rb4)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rb5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_huella1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_guardar1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
+        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(432, 425, 50, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -544,11 +468,6 @@ public void DibujarHuella(Image image){
             Logger.getLogger(CapturaHuella.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
-
-    private void btn_guardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardar1ActionPerformed
-        // TODO add your handling code here:
-        crearJsonRutaHuella();
-    }//GEN-LAST:event_btn_guardar1ActionPerformed
 
     public void crearFichero(Integer i,DPFPTemplate templateAux)
     {
@@ -745,9 +664,9 @@ public void DibujarHuella(Image image){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_guardar;
-    private javax.swing.JButton btn_guardar1;
     private javax.swing.ButtonGroup grupoHuella;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_guardar;
     private javax.swing.JLabel lbl_huella1;
     private javax.swing.JLabel lbl_icono1;
     private javax.swing.JLabel lbl_icono2;

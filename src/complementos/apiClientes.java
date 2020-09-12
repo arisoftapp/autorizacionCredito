@@ -73,10 +73,11 @@ public class apiClientes {
     public JSONObject getClientes()
     {
         String token=consultas.getToken();
+        Integer id_empresa=consultas.getIdEmpresa();
        JSONObject data = null;
          try {
             
-            URL url = new URL("http://wsar.homelinux.com:3100/clientes");//your url i.e fetch data from .
+            URL url = new URL("http://wsar.homelinux.com:3100/clientes/"+id_empresa);//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
