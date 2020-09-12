@@ -332,7 +332,7 @@ public void DibujarHuella(Image image){
             }
         });
         getContentPane().add(rb5, new org.netbeans.lib.awtextra.AbsoluteConstraints(362, 89, -1, -1));
-        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(441, 435, 30, 30));
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, 30, 30));
 
         btn_guardar.setText("jButton1");
         btn_guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +340,7 @@ public void DibujarHuella(Image image){
                 btn_guardarActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(432, 425, 50, 50));
+        getContentPane().add(btn_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 420, 50, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -450,6 +450,7 @@ public void DibujarHuella(Image image){
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here:
+        
         apiSubir apisubir=new apiSubir();     
         apiAutorizados apiautorizados=new apiAutorizados();
         try {
@@ -469,6 +470,20 @@ public void DibujarHuella(Image image){
         }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
+    public boolean DirectorioVacio()
+    {
+        boolean validar=false;
+        File tmp =  new File("src/tmp");
+        if(tmp.isDirectory() && tmp.list().length == 0)
+        {
+            validar=true;
+        }
+        else
+        {
+            validar=false;
+        }
+        return validar;
+    }
     public void crearFichero(Integer i,DPFPTemplate templateAux)
     {
         Date date = new Date();

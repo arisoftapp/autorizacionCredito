@@ -46,6 +46,7 @@ public class apiAutorizados {
     consultasBD consultas=new consultasBD();
     String token=consultas.getToken();
     
+    
         public Integer insertAutorizados(JSONObject json)
     {
          Integer res=0;

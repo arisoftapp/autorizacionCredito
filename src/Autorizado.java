@@ -3,6 +3,7 @@
 
 import complementos.apiAutorizados;
 import complementos.apiSubir;
+import complementos.consultasBD;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class Autorizado extends javax.swing.JFrame {
      */
     public static String param;
     public static Integer pantalla;
+    consultasBD consultas=new consultasBD();
+    Integer id_empresa=consultas.getIdEmpresa();
     public Integer id_autorizados=null;
     public File fichero=null;
     apiSubir subirImg=new apiSubir();
@@ -421,6 +424,7 @@ public class Autorizado extends javax.swing.JFrame {
             autorizados.put("codigoMacro",param);
             autorizados.put("foto",foto);
             autorizados.put("valFoto",val);
+            autorizados.put("id_empresa",id_empresa);
             }
         catch (JSONException e)
             {
