@@ -215,7 +215,9 @@ public class home extends javax.swing.JFrame {
 
        //this.setVisible(false);
       
-        ModificarAutorizados vh=new ModificarAutorizados();
+        ModificarAutorizados vh=null;
+        vh.pantalla=0;
+               vh= new ModificarAutorizados();
         vh.setVisible(true);
          this.setVisible(false);
 

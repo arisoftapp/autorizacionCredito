@@ -19,6 +19,7 @@ import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
 import complementos.apiAutorizados;
 import complementos.apiSubir;
+import complementos.consultasBD;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +55,8 @@ public class CapturaHuella extends javax.swing.JFrame {
     public static String codigo;
     public static String nombre;
     public static Integer id_autorizados;
+    consultasBD consultas=new consultasBD();
+    Integer id_empresa=consultas.getIdEmpresa();
     //Nos sirve para identificar al dispositivo
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
     //Nos sirve para leer a modo de enrrolar, y crear una plantilla nueva, a base de 4 huellas.
@@ -93,6 +96,7 @@ public class CapturaHuella extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
         System.out.println(codigo+" "+nombre);
+        
     }
      protected void Iniciar(){
    Lector.addDataListener(new DPFPDataAdapter() {
@@ -449,9 +453,14 @@ public void DibujarHuella(Image image){
     }//GEN-LAST:event_formWindowClosed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
-        // TODO add your handling code here:
-        
-        apiSubir apisubir=new apiSubir();     
+        // TODO add your handling code here
+        if(DirectorioVacio())
+        {
+            cuadroDialogo("No a registrado ninguna huella");
+        }
+        else
+        {
+            apiSubir apisubir=new apiSubir();     
         apiAutorizados apiautorizados=new apiAutorizados();
         try {
             JSONObject res=apisubir.subirHuella();
@@ -468,6 +477,8 @@ public void DibujarHuella(Image image){
         } catch (IOException ex) {
             Logger.getLogger(CapturaHuella.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
+        
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     public boolean DirectorioVacio()
@@ -476,10 +487,12 @@ public void DibujarHuella(Image image){
         File tmp =  new File("src/tmp");
         if(tmp.isDirectory() && tmp.list().length == 0)
         {
+            System.out.println("directorio vacio");
             validar=true;
         }
         else
         {
+            System.out.println("directorio con datos");
             validar=false;
         }
         return validar;
@@ -626,6 +639,7 @@ public void DibujarHuella(Image image){
              tmp.put("ruta", listado[i]);
              tmp.put("id_autorizados", id_autorizados);
              tmp.put("codigoMacro", codigo);
+             tmp.put("id_empresa", id_empresa);
              data.put(tmp);
         //System.out.println(listado[i]);
         }

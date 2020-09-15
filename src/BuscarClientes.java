@@ -1,5 +1,6 @@
 
 import complementos.apiClientes;
+import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -45,6 +46,7 @@ public class BuscarClientes extends javax.swing.JFrame {
                 }
         });
         DefaultTableModel modelo = (DefaultTableModel)tb_clientes.getModel();
+        
         JSONObject res=apiclientes.getClientes();
         JSONArray jArray = res.getJSONArray("respuesta");
                  for (int i=0;i<jArray.length();i++){
@@ -59,7 +61,7 @@ public class BuscarClientes extends javax.swing.JFrame {
                         fila[2] = puesto;
                         modelo.addRow ( fila );     
                 }
-        
+        this.setCursor(new Cursor(DEFAULT_CURSOR));
     }
 
     /**
@@ -121,6 +123,7 @@ public class BuscarClientes extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tb_clientes.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tb_clientes);
         if (tb_clientes.getColumnModel().getColumnCount() > 0) {
             tb_clientes.getColumnModel().getColumn(0).setResizable(false);

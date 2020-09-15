@@ -19,6 +19,7 @@ import com.digitalpersona.onetouch.processing.DPFPImageQualityException;
 import com.digitalpersona.onetouch.verification.DPFPVerification;
 import com.digitalpersona.onetouch.verification.DPFPVerificationResult;
 import complementos.apiAutorizados;
+import complementos.consultasBD;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,6 +49,8 @@ public class VerificarHuella extends javax.swing.JFrame {
     //variables
     JSONObject json=new JSONObject();
     JSONObject autorizado=new JSONObject();
+    consultasBD consultas=new consultasBD();
+    Integer id_empresa=consultas.getIdEmpresa();
     apiAutorizados apiautorizados=new apiAutorizados();
     //Nos sirve para identificar al dispositivo
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
@@ -178,7 +181,7 @@ lbl_huella.setIcon(
         Reclutador.clear();
         Image image=CrearImagenHuella(sample);
         DibujarHuella(image);
-        json=apiautorizados.getRutasHuella(txt_codigo.getText().toString().trim());
+        json=apiautorizados.getRutasHuella(txt_codigo.getText().toString().trim(),id_empresa);
             System.out.println(json);
             if(json!=null)
             {

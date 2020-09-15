@@ -45,7 +45,54 @@ import org.json.JSONObject;
 public class apiAutorizados {
     consultasBD consultas=new consultasBD();
     String token=consultas.getToken();
-    
+    Integer id_empresa=consultas.getIdEmpresa();
+    public JSONObject getAutorizados(String codigo)
+    {
+        String token=consultas.getToken();
+       JSONObject data = null;
+         try {
+            
+            URL url = new URL("http://wsar.homelinux.com:3100/getAutorizados/"+codigo+"/"+id_empresa);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(jObject.getBoolean("success"));
+               if(jObject.getBoolean("success"))
+               {
+                        data=jObject;
+                 }
+               else
+               { 
+      
+                   data=jObject;
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          cuadroDialogo(e.getMessage());
+      
+        }
+  
+         return data;
+    }
     
         public Integer insertAutorizados(JSONObject json)
     {
@@ -201,11 +248,11 @@ public class apiAutorizados {
         }
          
     }
-                    public JSONObject getRutasHuella(String codigoMacro)
+                    public JSONObject getRutasHuella(String codigoMacro,Integer id_empresa)
     {
          JSONObject res = null;
          try {
-            URL url = new URL("http://wsar.homelinux.com:3100/getRutaHuellas/"+codigoMacro);//your url i.e fetch data from .
+            URL url = new URL("http://wsar.homelinux.com:3100/getRutaHuellas/"+codigoMacro+"/"+id_empresa);//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");

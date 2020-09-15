@@ -1,5 +1,7 @@
 
 import complementos.apiClientes;
+import java.awt.Cursor;
+import static java.awt.Frame.WAIT_CURSOR;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,7 +31,9 @@ public class ModificarAutorizados extends javax.swing.JFrame {
    
         apiClientes apiclientes=new apiClientes();
         public static String codigoMacroSelect;
+        public static String cod_macro;
         String idAutorizado="";
+        public static Integer pantalla;
     public ModificarAutorizados() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -38,6 +42,24 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_editar, "src/images/register.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_ok, "src/images/tick.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_busqueda, "src/images/lupa.png");
+        if(pantalla==0)
+        {
+            System.out.println("viene de home");
+            txt_codigo.requestFocus();
+        }
+        if(pantalla==1)
+        {
+           System.out.println("viene de autorizados"); 
+           txt_codigo.setText(cod_macro);
+           consultarCodigo();
+           
+        }
+        if(pantalla==2)
+        {
+           System.out.println("viene de editar"); 
+           txt_codigo.setText(cod_macro);
+           consultarCodigo();
+        }
         tb_autorizados.addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent mouse_evt)
                 {
@@ -281,7 +303,23 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         else
         {
             
-            JSONObject respuesta=new JSONObject();
+            consultarCodigo();            
+            //cuadroDialogo(respuesta.toString());
+        }
+        }
+        else
+        {
+            txt_codigo.setEditable(true);
+            txt_codigo.setText("");
+            txt_codigo.setFocusable(true);
+            limpiarCampos();
+        }
+        
+    }//GEN-LAST:event_btn_consultarActionPerformed
+
+    public void consultarCodigo()
+    {
+        JSONObject respuesta=new JSONObject();
             JSONObject resCli=new JSONObject();
              DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
             respuesta=apiclientes.getCliente(txt_codigo.getText().toString().trim());
@@ -314,28 +352,12 @@ public class ModificarAutorizados extends javax.swing.JFrame {
             txt_puesto.setText(resCli.getString("puesto"));
             txt_comentarios.setText(resCli.getString("comentarios"));
             }
-      
-          
-                  
-            //cuadroDialogo(respuesta.toString());
-        }
-        }
-        else
-        {
-            txt_codigo.setEditable(true);
-            btn_consultar.setText("consultar");
-            txt_codigo.setText("");
-            txt_codigo.setFocusable(true);
-            limpiarCampos();
-        }
-        
-    }//GEN-LAST:event_btn_consultarActionPerformed
-
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //JSONObject res =  apiclientes.getClientes();
         //cuadroDialogo(res.toString());
-        
+       this.setCursor(new Cursor(WAIT_CURSOR));
         BuscarClientes vistaBC=new BuscarClientes();
         vistaBC.setVisible(true);
         this.setVisible(false);
@@ -375,7 +397,10 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         }
         else
         {
-            
+            EditarAutorizado veditar=null;
+            //veditar.id=idAutorizado;
+            veditar.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -417,6 +442,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
             vista.pantalla=1;
             vista=new Autorizado(); 
             vista.setVisible(true);
+            this.setVisible(false);
         }
         
     }//GEN-LAST:event_jButton4ActionPerformed

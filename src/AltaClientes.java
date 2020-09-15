@@ -4,6 +4,8 @@ import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.capture.DPFPCapture;
 import complementos.consultasApi;
 import complementos.consultasBD;
+import java.awt.Cursor;
+import static java.awt.Frame.WAIT_CURSOR;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -239,18 +241,19 @@ private int limite  = 10;
      {
          public void run()
          {
+             
              InsertarCliente();
          }
      }
   
       public void InsertarCliente()
     {
-        
         boolean validar=false;
         String token=consultasBD.getToken();
         
         //System.out.print(token);
          try {
+            this.setCursor(new Cursor(WAIT_CURSOR));
             URL url = new URL("http://wsar.homelinux.com:3100/insertarCliente");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -293,6 +296,9 @@ private int limite  = 10;
             System.err.println("Exception in NetClientGet:- " + e);
           cuadroDialogo(e.getMessage());
         }
+         finally{
+             this.setCursor(new Cursor(DEFAULT_CURSOR));
+         }
          if(validar==true)
          {
              guardar=true;

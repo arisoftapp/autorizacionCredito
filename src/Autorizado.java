@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +30,7 @@ import org.json.JSONObject;
  */
 public class Autorizado extends javax.swing.JFrame {
 
+    // pantalla=1 viene de modificar //pantalla!=1 viene de pantalla agregar
     /**
      * Creates new form Autorizado
      */
@@ -52,6 +54,39 @@ public class Autorizado extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_btnfoto, "src/images/picture.png");
         txt_codigo.setText(param);
         limpiarDirectorio();
+        if(pantalla==1)
+        {
+            actualizarTabla();
+        }
+        
+    }
+    public void actualizarTabla()
+    {
+        if(apiautorizados.getAutorizados(param).getBoolean("success"))
+        {
+            DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
+           JSONArray arrayAu = apiautorizados.getAutorizados(param).getJSONArray("respuesta");
+           for (int i=0;i<arrayAu.length();i++){
+                        //resCli = arrayAu.getJSONObject(i);    
+                        JSONObject obj=arrayAu.getJSONObject(i);
+                        String nombre=obj.getString("nombre")+" "+obj.getString("a_paterno")+" "+obj.getString("a_materno");
+                        String estatus=obj.getString("nom_estatus");
+                        Integer id=obj.getInt("idautorizados");
+                        Object [] fila = new Object[3];
+                        fila[0] = id;
+                        fila[1] = nombre;
+                        fila[2] = estatus;
+                        modelo.addRow ( fila );
+                        System.out.println("autorizados:"+obj);
+                }
+            
+        }
+        else
+        {
+            cuadroDialogo("Error al consultar Autorizados");
+            
+        }
+         
     }
     public void limpiarDirectorio()
     {
@@ -93,7 +128,7 @@ public class Autorizado extends javax.swing.JFrame {
         btn_huellas = new javax.swing.JButton();
         btn_documentos = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tb_aurizados = new javax.swing.JTable();
+        tb_autorizados = new javax.swing.JTable();
         txt_id = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         lbl_nuevo = new javax.swing.JLabel();
@@ -202,7 +237,7 @@ public class Autorizado extends javax.swing.JFrame {
         btn_documentos.setText("doc");
         getContentPane().add(btn_documentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 50, 50));
 
-        tb_aurizados.setModel(new javax.swing.table.DefaultTableModel(
+        tb_autorizados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -225,14 +260,14 @@ public class Autorizado extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tb_aurizados);
-        if (tb_aurizados.getColumnModel().getColumnCount() > 0) {
-            tb_aurizados.getColumnModel().getColumn(0).setMinWidth(30);
-            tb_aurizados.getColumnModel().getColumn(0).setPreferredWidth(30);
-            tb_aurizados.getColumnModel().getColumn(0).setMaxWidth(50);
-            tb_aurizados.getColumnModel().getColumn(2).setMinWidth(60);
-            tb_aurizados.getColumnModel().getColumn(2).setPreferredWidth(60);
-            tb_aurizados.getColumnModel().getColumn(2).setMaxWidth(60);
+        jScrollPane2.setViewportView(tb_autorizados);
+        if (tb_autorizados.getColumnModel().getColumnCount() > 0) {
+            tb_autorizados.getColumnModel().getColumn(0).setMinWidth(30);
+            tb_autorizados.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tb_autorizados.getColumnModel().getColumn(0).setMaxWidth(50);
+            tb_autorizados.getColumnModel().getColumn(2).setMinWidth(60);
+            tb_autorizados.getColumnModel().getColumn(2).setPreferredWidth(60);
+            tb_autorizados.getColumnModel().getColumn(2).setMaxWidth(60);
         }
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 217, -1, 222));
@@ -287,7 +322,7 @@ public class Autorizado extends javax.swing.JFrame {
         else
         {
             String nombre=txt_nombre.getText()+" "+txt_paterno.getText()+" "+txt_materno.getText();
-             DefaultTableModel modelo = (DefaultTableModel)tb_aurizados.getModel(); 
+             DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel(); 
             if(txt_paterno.getText().equalsIgnoreCase(""))
             {
                 cuadroDialogo("Ingrese Apellido Paterno");
@@ -403,6 +438,11 @@ public class Autorizado extends javax.swing.JFrame {
         if(pantalla==1)
         {
             this.setVisible(false);
+            ModificarAutorizados mvista=null;
+            mvista.cod_macro=txt_codigo.getText().toUpperCase();
+            mvista.pantalla=1;
+            mvista=new ModificarAutorizados();
+            mvista.setVisible(true);
             System.out.println("si vista modificar");
         }
         else
@@ -522,7 +562,7 @@ public class Autorizado extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_guardar;
     private javax.swing.JLabel lbl_huella;
     private javax.swing.JLabel lbl_nuevo;
-    private javax.swing.JTable tb_aurizados;
+    private javax.swing.JTable tb_autorizados;
     private javax.swing.JTextField txt_codigo;
     private javax.swing.JTextArea txt_comentario;
     private javax.swing.JTextField txt_id;

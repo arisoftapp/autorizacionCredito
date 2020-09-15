@@ -13,6 +13,7 @@ public class EditarAutorizado extends javax.swing.JFrame {
     /**
      * Creates new form EditarAutorizado
      */
+    public static Integer id;
     public EditarAutorizado() {
         initComponents();
     }
@@ -27,6 +28,7 @@ public class EditarAutorizado extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Editar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
