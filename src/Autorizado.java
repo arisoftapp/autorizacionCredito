@@ -135,7 +135,7 @@ public class Autorizado extends javax.swing.JFrame {
         btn_nuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Autorizados");
+        setTitle("Agregar Autorizados");
         setPreferredSize(new java.awt.Dimension(700, 500));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -414,6 +414,7 @@ public class Autorizado extends javax.swing.JFrame {
             vista.codigo=param;
             vista.nombre=txt_nombre.getText().trim();
             vista.id_autorizados=id_autorizados;
+            vista.pantalla=1;
             vista=new CapturaHuella();
             vista.setVisible(true);
         }

@@ -46,9 +46,10 @@ public class BuscarClientes extends javax.swing.JFrame {
                 }
         });
         DefaultTableModel modelo = (DefaultTableModel)tb_clientes.getModel();
-        
-        JSONObject res=apiclientes.getClientes();
-        JSONArray jArray = res.getJSONArray("respuesta");
+        try{
+            this.setCursor(new Cursor(WAIT_CURSOR));
+            JSONObject res=apiclientes.getClientes();
+            JSONArray jArray = res.getJSONArray("respuesta");
                  for (int i=0;i<jArray.length();i++){
                       JSONObject obj=jArray.getJSONObject(i);
                         String nombre=obj.getString("nombre")+" "+obj.getString("a_paterno")+" "+obj.getString("a_materno");
@@ -61,7 +62,15 @@ public class BuscarClientes extends javax.swing.JFrame {
                         fila[2] = puesto;
                         modelo.addRow ( fila );     
                 }
-        this.setCursor(new Cursor(DEFAULT_CURSOR));
+        }catch(Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        finally{
+            this.setCursor(new Cursor(DEFAULT_CURSOR));
+        }
+        
+        
     }
 
     /**
@@ -177,7 +186,8 @@ public class BuscarClientes extends javax.swing.JFrame {
         {
             System.out.println(codigoMacroSelect);
             ModificarAutorizados vista=null;
-            vista.codigoMacroSelect=codigoMacroSelect;
+            vista.cod_macro=codigoMacroSelect;
+            vista.pantalla=3;
             vista=new ModificarAutorizados();
             vista.setVisible(true);
             this.setVisible(false);
@@ -187,10 +197,23 @@ public class BuscarClientes extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        ModificarAutorizados vista=null;
-            vista.codigoMacroSelect=codigoMacroSelect;
+        if(codigoMacroSelect.equalsIgnoreCase(""))
+        {
+            //JOptionPane.showMessageDialog(null, "no ha seleccionado Cliente");
+            ModificarAutorizados vista=null;
+            vista.pantalla=0;
             vista=new ModificarAutorizados();
             vista.setVisible(true);
+        }
+        else
+        {
+            ModificarAutorizados vista=null;
+            vista.cod_macro=codigoMacroSelect;
+            vista.pantalla=3;
+            vista=new ModificarAutorizados();
+            vista.setVisible(true);
+        }
+        
             
     }//GEN-LAST:event_formWindowClosing
 

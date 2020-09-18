@@ -5,6 +5,8 @@
  */
 package complementos;
 
+import java.awt.Cursor;
+import static java.awt.Frame.DEFAULT_CURSOR;
 import java.awt.List;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -142,9 +144,11 @@ public class apiAutorizados {
         }
          return res;
     }
-        public void insertRutaAHuella(JSONObject json)
+        public boolean insertRutaAHuella(JSONObject json)
     {
+        boolean res=false;
          try {
+            
             URL url = new URL("http://wsar.homelinux.com:3100/insertarRutaAHuella");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -172,7 +176,58 @@ public class apiAutorizados {
                 System.out.print(finalJSON);
                if(jObject.getBoolean("success"))
                {
+                   res=true;
                    System.out.println(jObject.getBoolean("success"));
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+               else
+               {
+                   res=false;
+                 cuadroDialogo(jObject.getString("mensaje"));
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            res=false;
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+         return res;
+    }
+        public boolean updateAutorizado(JSONObject json)
+    {
+         boolean res=false;
+         try {
+            URL url = new URL("http://wsar.homelinux.com:3100/updateAutorizado");//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            os.writeBytes(json.toString());
+            os.flush();
+            os.close();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   System.out.println(jObject.getBoolean("success"));
+                   res=true;
                    cuadroDialogo(jObject.getString("mensaje"));
                }
                else
@@ -186,7 +241,55 @@ public class apiAutorizados {
             System.err.println("Exception in NetClientGet:- " + e);
           
         }
-         
+         return res;
+    }
+        public boolean updateRutaHuellas(JSONObject json)
+    {
+         boolean res=false;
+         try {
+            URL url = new URL("http://wsar.homelinux.com:3100/updateHuella");//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            os.writeBytes(json.toString());
+            os.flush();
+            os.close();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   System.out.println(jObject.getBoolean("success"));
+                   res=true;
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+               else
+               {
+                 cuadroDialogo(jObject.getString("mensaje"));
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          cuadroDialogo(e.getMessage());
+        }
+         return res;
     }
         public void pruebas2( byte[] content ) throws IOException
     {
@@ -248,7 +351,7 @@ public class apiAutorizados {
         }
          
     }
-                    public JSONObject getRutasHuella(String codigoMacro,Integer id_empresa)
+      public JSONObject getRutasHuella(String codigoMacro,Integer id_empresa)
     {
          JSONObject res = null;
          try {
@@ -292,11 +395,11 @@ public class apiAutorizados {
         }
          return res;
     }
-             public JSONObject getAutorizadoId(String id)
+             public JSONObject getAutorizadoId(Integer id,String codigo)
     {
          JSONObject res = null;
          try {
-            URL url = new URL("http://wsar.homelinux.com:3100/getAutorizado/"+id);//your url i.e fetch data from .
+            URL url = new URL("http://wsar.homelinux.com:3100/getAutorizado/"+id+"/"+codigo+"/"+id_empresa);//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
@@ -332,6 +435,7 @@ public class apiAutorizados {
 
         } catch (IOException | JSONException e) {
             System.err.println("Exception in NetClientGet:- " + e);
+             cuadroDialogo("Error al cargar Autorizado:"+e.getMessage());
           
         }
          return res;
@@ -418,7 +522,7 @@ public class apiAutorizados {
         try {
             URL url = new URL("http://wsar.homelinux.com:3100/download_huellas/"+nombre);//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept","application/json");
             //conn.setRequestProperty("access-token",token);

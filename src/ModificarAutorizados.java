@@ -30,7 +30,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
     //variables
    
         apiClientes apiclientes=new apiClientes();
-        public static String codigoMacroSelect;
+        //public static String codigoMacroSelect;
         public static String cod_macro;
         String idAutorizado="";
         public static Integer pantalla;
@@ -60,6 +60,12 @@ public class ModificarAutorizados extends javax.swing.JFrame {
            txt_codigo.setText(cod_macro);
            consultarCodigo();
         }
+        if(pantalla==3)
+        {
+            System.out.println("viene de buscar"); 
+            txt_codigo.setText(cod_macro);
+           consultarCodigo();
+        }
         tb_autorizados.addMouseListener(new MouseAdapter(){
             public void mousePressed(MouseEvent mouse_evt)
                 {
@@ -68,22 +74,11 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                     int row=tb.rowAtPoint(point);
                     idAutorizado=tb.getValueAt(tb.getSelectedRow(), 0).toString();
                     //System.out.println(""+row);
-                    System.out.println(""+codigoMacroSelect);
+                    //System.out.println(""+codigoMacroSelect);
                 }
         });
-        System.out.println("Codigo Macro select "+codigoMacroSelect);
-        try {
-         if(codigoMacroSelect.equalsIgnoreCase(""))
-        {
-            
-        }
-        else
-        {
-            txt_codigo.setText(codigoMacroSelect);
-        }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+        //System.out.println("Codigo Macro select "+codigoMacroSelect);
+       
         
     }
 
@@ -123,6 +118,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Editar Cliente");
         setPreferredSize(new java.awt.Dimension(700, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -141,6 +137,9 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         getContentPane().add(lbl_busqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 15, 30, 30));
 
         txt_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_codigoKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_codigoKeyReleased(evt);
             }
@@ -163,14 +162,14 @@ public class ModificarAutorizados extends javax.swing.JFrame {
                 txt_nombreKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 100, -1));
+        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 100, -1));
 
         txt_materno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_maternoKeyReleased(evt);
             }
         });
-        getContentPane().add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 60, 100, -1));
+        getContentPane().add(txt_materno, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 60, 100, -1));
 
         txt_paterno.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -187,19 +186,19 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         getContentPane().add(txt_puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 100, -1));
 
         jLabel2.setText("Nombre:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, -1, -1));
 
         jLabel3.setText("Apellido Paterno:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, -1, -1));
 
         jLabel4.setText("Apellido Materno:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 60, -1, -1));
 
         jLabel5.setText("Puesto:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
 
         jLabel6.setText("Comentarios:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
 
         lbl_guardar.setText("jLabel7");
         getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 220, 30, 30));
@@ -319,14 +318,17 @@ public class ModificarAutorizados extends javax.swing.JFrame {
 
     public void consultarCodigo()
     {
+        try{
+            this.setCursor(new Cursor(WAIT_CURSOR));
         JSONObject respuesta=new JSONObject();
             JSONObject resCli=new JSONObject();
-             DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
+             
             respuesta=apiclientes.getCliente(txt_codigo.getText().toString().trim());
             if(respuesta.getBoolean("success"))
             {
+                DefaultTableModel modelo = (DefaultTableModel)tb_autorizados.getModel();
                 txt_codigo.setEditable(false);
-                btn_consultar.setText("habilitar");
+                //btn_consultar.setText("habilitar");
                 JSONArray jArray = respuesta.getJSONArray("respuesta");
                  for (int i=0;i<jArray.length();i++){
                         resCli = jArray.getJSONObject(i);       
@@ -351,16 +353,29 @@ public class ModificarAutorizados extends javax.swing.JFrame {
             txt_materno.setText(resCli.getString("a_materno"));
             txt_puesto.setText(resCli.getString("puesto"));
             txt_comentarios.setText(resCli.getString("comentarios"));
+            tb_autorizados.setModel(modelo);
             }
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        finally{
+            this.setCursor(new Cursor(DEFAULT_CURSOR));
+        }
+        
+            
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //JSONObject res =  apiclientes.getClientes();
         //cuadroDialogo(res.toString());
-       this.setCursor(new Cursor(WAIT_CURSOR));
+       //this.setCursor(new Cursor(WAIT_CURSOR));
         BuscarClientes vistaBC=new BuscarClientes();
         vistaBC.setVisible(true);
+        // this.setCursor(new Cursor(DEFAULT_CURSOR));
         this.setVisible(false);
+       
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -398,9 +413,12 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         else
         {
             EditarAutorizado veditar=null;
-            //veditar.id=idAutorizado;
+            
+            veditar.id=Integer.parseInt(idAutorizado);
+            veditar.cod_mac=txt_codigo.getText().toUpperCase();
+            veditar=new EditarAutorizado();
             veditar.setVisible(true);
-            this.dispose();
+            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -418,15 +436,12 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         }
         else
         {
-            if(txt_nombre.getText().equalsIgnoreCase(""))
+            if(apiclientes.modificarCliente(crearJson()))
             {
-                
+            
             }
         }
-        if(apiclientes.modificarCliente(crearJson()))
-        {
-            
-        }
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -457,6 +472,22 @@ private int limite  = 10;
         if (txt_codigo.getText().length()== limite)
      evt.consume();
     }//GEN-LAST:event_txt_codigoKeyTyped
+
+    private void txt_codigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode()==10)
+        {
+            if(txt_codigo.getText().equalsIgnoreCase(""))
+            {
+                cuadroDialogo("Ingrese codigo");
+            }
+            else
+            {
+                
+            }
+        }
+        
+    }//GEN-LAST:event_txt_codigoKeyPressed
 
     public JSONObject crearJson()
     {

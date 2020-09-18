@@ -34,6 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -55,7 +56,12 @@ public class CapturaHuella extends javax.swing.JFrame {
     public static String codigo;
     public static String nombre;
     public static Integer id_autorizados;
+    public static Integer pantalla;
+    boolean validarImagenes=false;
+    boolean validarRutas=false;
     consultasBD consultas=new consultasBD();
+    apiSubir apisubir=new apiSubir();     
+        apiAutorizados apiautorizados=new apiAutorizados();
     Integer id_empresa=consultas.getIdEmpresa();
     //Nos sirve para identificar al dispositivo
     private DPFPCapture Lector = DPFPGlobal.getCaptureFactory().createCapture();
@@ -88,6 +94,7 @@ public class CapturaHuella extends javax.swing.JFrame {
                 }
         initComponents();
         this.setLocationRelativeTo(null);
+        limpiarDirectorio();
         Iniciar();
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/huella-dactilar.png");
@@ -454,20 +461,43 @@ public void DibujarHuella(Image image){
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         // TODO add your handling code here
-        if(DirectorioVacio())
+   
+        if(validarImagenes==false && validarRutas==false)
+        {
+            if(DirectorioVacio())
         {
             cuadroDialogo("No a registrado ninguna huella");
         }
         else
         {
-            apiSubir apisubir=new apiSubir();     
-        apiAutorizados apiautorizados=new apiAutorizados();
+            
         try {
             JSONObject res=apisubir.subirHuella();
             if(res.getBoolean("success"))
             {
+                validarImagenes=true;
                 //cuadroDialogo(res.getString("mensaje"));
-                apiautorizados.insertRutaAHuella(crearJsonRutaHuella());
+                if(pantalla==1)
+                {
+                    if(apiautorizados.insertRutaAHuella(crearJsonRutaHuella()))
+                    {
+                        this.setVisible(false);
+                    }
+                }
+                else
+                {
+                    if(pantalla==2)
+                    {
+                        //actualizar huellas
+                        //apiautorizados.updateRutaHuellas()
+                       if(apiautorizados.insertRutaAHuella(crearJsonRutaHuella()))
+                        {
+                            this.setVisible(false);
+                        }
+                    }
+                }
+                
+                
             }
             else
             {
@@ -478,9 +508,44 @@ public void DibujarHuella(Image image){
             Logger.getLogger(CapturaHuella.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
+        }
+        else
+        {
+            if(validarImagenes==true && validarRutas==false)
+            {
+                if(pantalla==1)
+                {
+                   if(apiautorizados.insertRutaAHuella(crearJsonRutaHuella()))
+                    {
+                        this.setVisible(false);
+                    }
+                }
+                else
+                {
+                    if(pantalla==2)
+                    {
+                        //actualizar huellas
+                        if(apiautorizados.insertRutaAHuella(crearJsonRutaHuella()))
+                        {
+                            this.setVisible(false);
+                        }
+                    }
+                }
+            }
+        }
+        
         
     }//GEN-LAST:event_btn_guardarActionPerformed
 
+    public void limpiarDirectorio()
+    {
+        File directorio = new File("src/tmp");
+        File[] ficheros = directorio.listFiles();
+        for(int i=0;i<ficheros.length;i++)
+        {
+            ficheros[i].delete();
+        }
+    }
     public boolean DirectorioVacio()
     {
         boolean validar=false;
