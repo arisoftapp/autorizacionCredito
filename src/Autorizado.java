@@ -41,7 +41,9 @@ public class Autorizado extends javax.swing.JFrame {
     public Integer id_autorizados=null;
     public File fichero=null;
     apiSubir subirImg=new apiSubir();
+    CapturaHuella vistaCH=null;
     apiAutorizados apiautorizados=new apiAutorizados();
+    Documentos vdoc=null;
     public Autorizado() {
         initComponents();
         //System.out.println("parametro: "+param);
@@ -235,6 +237,11 @@ public class Autorizado extends javax.swing.JFrame {
         getContentPane().add(btn_huellas, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 220, 50, 50));
 
         btn_documentos.setText("doc");
+        btn_documentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_documentosActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_documentos, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 50, 50));
 
         tb_autorizados.setModel(new javax.swing.table.DefaultTableModel(
@@ -395,7 +402,7 @@ public class Autorizado extends javax.swing.JFrame {
               //Si el usuario, pincha en aceptar
         if(seleccion==JFileChooser.APPROVE_OPTION){
             //Seleccionamos el fichero
-            fichero=fc.getSelectedFile();
+            fichero=fc.getSelectedFile();                                 
             //System.out.println(fichero.getName());
             //Ecribe la ruta del fichero seleccionado en el campo de texto  
             rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, fichero.getAbsolutePath());
@@ -410,13 +417,34 @@ public class Autorizado extends javax.swing.JFrame {
         }
         else
         {
-            CapturaHuella vista=null;
-            vista.codigo=param;
-            vista.nombre=txt_nombre.getText().trim();
-            vista.id_autorizados=id_autorizados;
-            vista.pantalla=1;
-            vista=new CapturaHuella();
-            vista.setVisible(true);
+            if(vistaCH!=null)
+            {
+               if(vistaCH.isShowing())
+            {
+                cuadroDialogo("Ventana Abierta");
+                vistaCH.requestFocus();
+            }
+            else
+            {
+                vistaCH.codigo=param;
+                vistaCH.nombre=txt_nombre.getText().trim();
+                vistaCH.id_autorizados=id_autorizados;
+                vistaCH.pantalla=1;
+                vistaCH=new CapturaHuella();
+                vistaCH.setVisible(true);
+            } 
+            }
+            else
+            {
+                vistaCH.codigo=param;
+                vistaCH.nombre=txt_nombre.getText().trim();
+                vistaCH.id_autorizados=id_autorizados;
+                vistaCH.pantalla=1;
+                vistaCH=new CapturaHuella();
+                vistaCH.setVisible(true);
+            }
+            
+            
         }
         
     }//GEN-LAST:event_btn_huellasActionPerformed
@@ -454,6 +482,32 @@ public class Autorizado extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_formWindowClosed
+
+    private void btn_documentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_documentosActionPerformed
+        // TODO add your handling code here:
+        
+        if(vdoc!=null)
+        {
+            if(vdoc.isShowing())
+            {
+                cuadroDialogo("Ventana abierta");
+                vdoc.requestFocus();
+            }
+            else
+            {
+                vdoc.codigoMacro=param;
+                vdoc=new Documentos();
+                vdoc.setVisible(true);
+            }
+        }
+        else
+        {
+           vdoc.codigoMacro=param;
+            vdoc=new Documentos();
+            vdoc.setVisible(true); 
+        }
+            
+    }//GEN-LAST:event_btn_documentosActionPerformed
     public JSONObject crearJsonAutorizado(String foto,boolean val)
     {
         JSONObject autorizados = new JSONObject();

@@ -1,3 +1,5 @@
+
+
 import complementos.apiAutorizados;
 import complementos.consultasApi;
 import complementos.consultasBD;
@@ -49,11 +51,13 @@ public class home extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_mod, "src/images/register.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_verificar, "src/images/fingerprint.png");
          rsscalelabel.RSScaleLabel.setScaleLabel(img_logout, "src/images/logout.png");
+         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_consulta, "src/images/lupa.png");
           usuario=consultasBD.getUsuario();
           id_empresa=consultasBD.getIdEmpresa();
           nom_empresa=consultasBD.getNombreEmpresa();
           System.out.println(usuario);
           lbl_empresa.setText(" "+id_empresa+" - "+nom_empresa);
+          jButton1.setVisible(false);
     }
 
     /**
@@ -75,13 +79,17 @@ public class home extends javax.swing.JFrame {
         btn_verificar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         lbl_empresa = new javax.swing.JLabel();
+        lbl_consulta = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        btn_consulta = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home");
-        setPreferredSize(new java.awt.Dimension(700, 400));
+        setMinimumSize(new java.awt.Dimension(700, 400));
+        setPreferredSize(new java.awt.Dimension(700, 300));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(lbl_verificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 70, 70));
@@ -138,6 +146,21 @@ public class home extends javax.swing.JFrame {
 
         lbl_empresa.setText("empresa");
         getContentPane().add(lbl_empresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
+        getContentPane().add(lbl_consulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 70, 70));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
+
+        btn_consulta.setText("Consultar");
+        btn_consulta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btn_consulta.setMargin(new java.awt.Insets(2, 14, 15, 14));
+        btn_consulta.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        getContentPane().add(btn_consulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 200, 100));
 
         jMenu1.setText("Clientes");
 
@@ -236,6 +259,15 @@ public class home extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btn_verificarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+      Documentos vdoc=null;
+        vdoc.codigoMacro="PRUEBADOC";
+                vdoc=new Documentos();
+                vdoc.setVisible(true);
+                
+    }//GEN-LAST:event_jButton1ActionPerformed
    
     /**
      * @param args the command line arguments
@@ -279,15 +311,18 @@ public class home extends javax.swing.JFrame {
     String nom_empresa="";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_alta;
+    private javax.swing.JButton btn_consulta;
     private javax.swing.JButton btn_salir;
     private javax.swing.JButton btn_verificar;
     private javax.swing.JLabel img_clientes;
     private javax.swing.JLabel img_logout;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JLabel lbl_consulta;
     private javax.swing.JLabel lbl_empresa;
     private javax.swing.JLabel lbl_mod;
     private javax.swing.JLabel lbl_verificar;

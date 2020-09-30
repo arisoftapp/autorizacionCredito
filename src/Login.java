@@ -6,6 +6,7 @@
 import complementos.consultasBD;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
+import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -53,6 +54,7 @@ public class Login extends javax.swing.JFrame {
 
     public void Sesion()
     {
+        
          try {
             URL url = new URL("http://wsar.homelinux.com:3100/usuario/");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -237,7 +239,9 @@ public class Login extends javax.swing.JFrame {
         String ruta="";
         Integer id_empresa=0;
         String nom_empresa="";
+        this.setCursor(new Cursor(WAIT_CURSOR));
          try {
+             
             System.out.print(crearJsonLogin().toString());
             URL url = new URL("http://wsar.homelinux.com:3100/login");//your url i.e fetch data from .
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -284,6 +288,9 @@ public class Login extends javax.swing.JFrame {
             System.err.println("Exception in NetClientGet:- " + e);
           cuadroDialogo(e.getMessage());
         }
+         finally{
+             this.setCursor(new Cursor(DEFAULT_CURSOR));
+         }
          if(val==true)
          {
              if(consultas.buscarPorUsuario(txt_usuario.getText().toString().trim())==true)
@@ -340,6 +347,15 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
        
             public void run() {
+                try {
+            
+          Runtime.getRuntime().exec("C:\\wamp64\\wampmanager.exe");
+        
+      } catch (IOException ex) {
+      
+          System.out.println(ex);
+        
+      }
           boolean validar=false;
               try {
           Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
@@ -358,6 +374,7 @@ public class Login extends javax.swing.JFrame {
         } catch(SQLException ex){
              validar=false;
           System.out.println("error:"+ex);
+                  JOptionPane.showMessageDialog(null, "Problemas para conectar con la base de datos local");
         }
         
               if(validar==true)

@@ -31,6 +31,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
    
         apiClientes apiclientes=new apiClientes();
         //public static String codigoMacroSelect;
+        ModificarDocumentos vdoc=null;
         public static String cod_macro;
         String idAutorizado="";
         public static Integer pantalla;
@@ -42,6 +43,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_editar, "src/images/register.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_ok, "src/images/tick.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_busqueda, "src/images/lupa.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_doc, "src/images/add-doc.png");
         if(pantalla==0)
         {
             System.out.println("viene de home");
@@ -113,9 +115,11 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         txt_comentarios = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_autorizados = new javax.swing.JTable();
+        lbl_doc = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar Cliente");
@@ -199,15 +203,9 @@ public class ModificarAutorizados extends javax.swing.JFrame {
 
         jLabel6.setText("Comentarios:");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, -1, -1));
-
-        lbl_guardar.setText("jLabel7");
-        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 220, 30, 30));
-
-        lbl_agregar.setText("jLabel7");
-        getContentPane().add(lbl_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 220, 30, 30));
-
-        lbl_editar.setText("jLabel7");
-        getContentPane().add(lbl_editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 30, 30));
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 220, 30, 30));
+        getContentPane().add(lbl_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 220, 30, 30));
+        getContentPane().add(lbl_editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 220, 30, 30));
 
         btn_consultar.setText("Consultar");
         btn_consultar.addActionListener(new java.awt.event.ActionListener() {
@@ -262,30 +260,35 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         }
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 204, -1, 144));
+        getContentPane().add(lbl_doc, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 220, 30, 30));
 
-        jButton3.setText("Editar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 50, 50));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 210, 50, 50));
 
-        jButton4.setText("Agregar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 50, 50));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 210, 50, 50));
 
-        jButton5.setText("Guardar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 210, 50, 50));
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 210, 50, 50));
+
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 210, 50, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -489,6 +492,38 @@ private int limite  = 10;
         
     }//GEN-LAST:event_txt_codigoKeyPressed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(txt_codigo.getText().equalsIgnoreCase(""))
+        {
+            cuadroDialogo("Consulte Cliente");
+        }
+        else
+        {
+           if(vdoc!=null)
+        {
+            if(vdoc.isShowing())
+            {
+                cuadroDialogo("Ventana abierta");
+                vdoc.requestFocus();
+            }
+            else
+            {
+                vdoc.codigoMacro=txt_codigo.getText().toUpperCase().toString();
+                vdoc=new ModificarDocumentos();
+                vdoc.setVisible(true);
+            }
+        }
+        else
+        {
+           vdoc.codigoMacro=txt_codigo.getText().toUpperCase().toString();
+            vdoc=new ModificarDocumentos();
+            vdoc.setVisible(true); 
+        } 
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public JSONObject crearJson()
     {
         JSONObject obj = new JSONObject();
@@ -563,6 +598,7 @@ private int limite  = 10;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_consultar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -576,6 +612,7 @@ private int limite  = 10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_agregar;
     private javax.swing.JLabel lbl_busqueda;
+    private javax.swing.JLabel lbl_doc;
     private javax.swing.JLabel lbl_editar;
     private javax.swing.JLabel lbl_guardar;
     private javax.swing.JLabel lbl_ok;

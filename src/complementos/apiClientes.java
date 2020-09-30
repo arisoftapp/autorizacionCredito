@@ -71,6 +71,53 @@ public class apiClientes {
   
          return data;
     }
+    public JSONObject getClienteVH(String codigo,String id_empresa)
+    {
+        
+       JSONObject data = null;
+         try {
+            
+            URL url = new URL("http://wsar.homelinux.com:3100/cliente/"+codigo+"/"+id_empresa);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+    
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(jObject.getBoolean("success"));
+               if(jObject.getBoolean("success"))
+               {
+                        data=jObject;
+                 }
+               else
+               { 
+      
+                   data=jObject;
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          cuadroDialogo(e.getMessage());
+      
+        }
+  
+         return data;
+    }
     public JSONObject getClientes()
     {
         String token=consultas.getToken();
@@ -160,6 +207,148 @@ public class apiClientes {
             conn.disconnect();
 
         } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+         return res;
+    }
+     public boolean insertarRutaDoc(JSONObject json)
+    {
+        boolean res=false;
+         try {
+            
+            URL url = new URL("http://wsar.homelinux.com:3100/insertarRutaDocumentos");//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            os.writeBytes(json.toString());
+            os.flush();
+            os.close();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   res=true;
+                   System.out.println(jObject.getBoolean("success"));
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+               else
+               {
+                   res=false;
+                 cuadroDialogo(jObject.getString("mensaje"));
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            res=false;
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+         return res;
+    }
+     public JSONObject getRutasDoc(String codigoMacro)
+    {
+         JSONObject res = null;
+         try {
+            URL url = new URL("http://wsar.homelinux.com:3100/rutaDocumentos/"+codigoMacro+"/"+id_empresa);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                //System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   //System.out.println(jObject.getBoolean("success"));
+                   //cuadroDialogo(jObject.getString("mensaje"));
+                   res=new JSONObject(finalJSON);
+               }
+               else
+               {
+                 
+               }
+          
+            conn.disconnect();
+
+        } catch (Exception e) {
+            System.err.println("Exception in NetClientGet:- getRutasDoc" + e.getMessage());
+             cuadroDialogo("Error"+e.getMessage());
+        }
+         return res;
+    }
+     public boolean eliminarRutaDoc(String id)
+    {
+        boolean res=false;
+         try {
+            
+            URL url = new URL("http://wsar.homelinux.com:3100/eliminarDoc/"+id);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("DELETE");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                String finalJSON = sb.toString();
+                JSONObject jObject = new JSONObject(finalJSON);
+                System.out.print(finalJSON);
+               if(jObject.getBoolean("success"))
+               {
+                   res=true;
+                   System.out.println(jObject.getBoolean("success"));
+                   cuadroDialogo(jObject.getString("mensaje"));
+               }
+               else
+               {
+                   res=false;
+                 cuadroDialogo(jObject.getString("mensaje"));
+               }
+          
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            res=false;
             System.err.println("Exception in NetClientGet:- " + e);
           
         }

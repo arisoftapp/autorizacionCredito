@@ -45,30 +45,8 @@ public class BuscarClientes extends javax.swing.JFrame {
                     System.out.println(""+codigoMacroSelect);
                 }
         });
-        DefaultTableModel modelo = (DefaultTableModel)tb_clientes.getModel();
-        try{
-            this.setCursor(new Cursor(WAIT_CURSOR));
-            JSONObject res=apiclientes.getClientes();
-            JSONArray jArray = res.getJSONArray("respuesta");
-                 for (int i=0;i<jArray.length();i++){
-                      JSONObject obj=jArray.getJSONObject(i);
-                        String nombre=obj.getString("nombre")+" "+obj.getString("a_paterno")+" "+obj.getString("a_materno");
-                        String codigo=obj.getString("codigoMacro");
-                        String puesto=obj.getString("puesto");
-                        //System.out.println(codigo);
-                        Object [] fila = new Object[3];
-                        fila[0] = codigo;
-                        fila[1] = nombre;
-                        fila[2] = puesto;
-                        modelo.addRow ( fila );     
-                }
-        }catch(Exception e)
-        {
-            System.err.println(e.getMessage());
-        }
-        finally{
-            this.setCursor(new Cursor(DEFAULT_CURSOR));
-        }
+        Thread t = new BuscarClientes.asyncTask();
+            t.start();
         
         
     }
@@ -159,6 +137,45 @@ public class BuscarClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public class asyncTask extends Thread
+    {
+        public void run()
+        {
+            cargarClientes();
+        }
+    }
+    public void cargarClientes()
+    {
+        DefaultTableModel modelo = (DefaultTableModel)tb_clientes.getModel();
+        try{
+            this.setCursor(new Cursor(WAIT_CURSOR));
+            JSONObject res=apiclientes.getClientes();
+            JSONArray jArray = res.getJSONArray("respuesta");
+                 for (int i=0;i<jArray.length();i++){
+                      JSONObject obj=jArray.getJSONObject(i);
+                        String nombre=obj.getString("nombre")+" "+obj.getString("a_paterno")+" "+obj.getString("a_materno");
+                        String codigo=obj.getString("codigoMacro");
+                        String puesto=obj.getString("puesto");
+                        //System.out.println(codigo);
+                        Object [] fila = new Object[3];
+                        fila[0] = codigo;
+                        fila[1] = nombre;
+                        fila[2] = puesto;
+                        modelo.addRow ( fila );     
+                }
+        }catch(Exception e)
+        {
+            
+            System.err.println(e.getMessage());
+            ModificarAutorizados vista=null;
+            vista.pantalla=0;
+            vista=new ModificarAutorizados();
+            vista.setVisible(true);
+        }
+        finally{
+            this.setCursor(new Cursor(DEFAULT_CURSOR));
+        }
+    }
     private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
         // TODO add your handling code here:
         //System.out.println(evt.getKeyCode());
@@ -204,6 +221,7 @@ public class BuscarClientes extends javax.swing.JFrame {
             vista.pantalla=0;
             vista=new ModificarAutorizados();
             vista.setVisible(true);
+            
         }
         else
         {
