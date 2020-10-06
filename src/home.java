@@ -160,6 +160,11 @@ public class home extends javax.swing.JFrame {
         btn_consulta.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_consulta.setMargin(new java.awt.Insets(2, 14, 15, 14));
         btn_consulta.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btn_consulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_consultaActionPerformed(evt);
+            }
+        });
         getContentPane().add(btn_consulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 200, 100));
 
         jMenu1.setText("Clientes");
@@ -268,6 +273,15 @@ public class home extends javax.swing.JFrame {
                 vdoc.setVisible(true);
                 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_consultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultaActionPerformed
+        // TODO add your handling code here:
+        Consultar vc=null;
+        vc.pantalla=0;
+               vc= new Consultar();
+        vc.setVisible(true);
+         this.setVisible(false);
+    }//GEN-LAST:event_btn_consultaActionPerformed
    
     /**
      * @param args the command line arguments

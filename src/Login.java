@@ -41,6 +41,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form home
      */
     consultasBD consultas=new consultasBD();
+    boolean admin=false;
     public Login() {
        
             initComponents();
@@ -199,9 +200,20 @@ public class Login extends javax.swing.JFrame {
   
     public void cambiarPantalla()
     {
-        this.setVisible(false);
-        home v_home=new home();
-        v_home.setVisible(true);
+ 
+        if(admin==true)
+        {
+            this.setVisible(false);
+            HomeAdmin v_home=new HomeAdmin();
+            v_home.setVisible(true);
+        }
+        else
+        {
+            this.setVisible(false);
+            home v_home=new home();
+            v_home.setVisible(true);
+        }
+        
     }
         public class asynTaskSesion extends Thread
     {
@@ -293,14 +305,21 @@ public class Login extends javax.swing.JFrame {
          }
          if(val==true)
          {
-             if(consultas.buscarPorUsuario(txt_usuario.getText().toString().trim())==true)
+             if(txt_usuario.getText().equalsIgnoreCase("admin"))
              {
-                 consultas.update(txt_usuario.getText().trim(),token, val, ruta,id_empresa,nom_empresa);
+                 admin=true;
              }
-             else
-             {
-                 consultas.insertBD(txt_usuario.getText().toString().trim(), token, true,ruta,id_empresa,nom_empresa);
-             }
+   
+                 if(consultas.buscarPorUsuario(txt_usuario.getText().toString().trim())==true)
+                {
+                     consultas.update(txt_usuario.getText().trim(),token, val, ruta,id_empresa,nom_empresa);
+                }
+                else
+                {
+                     consultas.insertBD(txt_usuario.getText().toString().trim(), token, true,ruta,id_empresa,nom_empresa);
+                }
+             
+             
              
              //setPropertyValue("usuario",txt_usuario.getText().toString());
              //
@@ -357,12 +376,14 @@ public class Login extends javax.swing.JFrame {
         
       }
           boolean validar=false;
+          String usu="";
               try {
           Connection conexion=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/credito","root" ,"");
           Statement comando=(Statement) conexion.createStatement();
           ResultSet registro = comando.executeQuery("select * from usuario");
 	  if (registro.next()==true) {
             System.out.println(registro.getString("nom_usuario"));
+            usu=registro.getString("nom_usuario");
             validar=true;
              System.out.println("encontro");
 	  } else {
@@ -379,7 +400,16 @@ public class Login extends javax.swing.JFrame {
         
               if(validar==true)
               {
-                       new home().setVisible(true);
+                  if(usu.equalsIgnoreCase("ADMIN"))
+                  {
+                      new HomeAdmin().setVisible(true);
+                  }
+                  else
+                  {
+                      new home().setVisible(true);
+                  }
+                      
+                       
               }
               else
               {

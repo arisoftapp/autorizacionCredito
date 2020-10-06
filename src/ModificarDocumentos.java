@@ -48,6 +48,8 @@ public class ModificarDocumentos extends javax.swing.JFrame {
     public ModificarDocumentos() {
         initComponents();
         this.setLocationRelativeTo(null);
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_agregar, "src/images/plus.png");
         popup.add(jMItem);
         tb_docGuard.setComponentPopupMenu(popup);
         jMItem.addActionListener(new ActionListener() {
@@ -147,9 +149,10 @@ public class ModificarDocumentos extends javax.swing.JFrame {
     {
          JSONArray res=new JSONArray();
         try{
-            
-         for (int i = cantDoc; i < tb_docSub.getRowCount(); i++) {
-             //System.out.println(tb_doc.getValueAt(i, 0));
+            System.out.println("cantDoc"+cantDoc);
+            System.out.println("cant"+tb_docSub.getRowCount());
+         for (int i = 0; i < tb_docSub.getRowCount(); i++) {
+             System.out.println("valores al crear json"+tb_docSub.getValueAt(i, 0));
              JSONObject json = new JSONObject();
             json.put("id_empresa", id_empresa);
             json.put("codigoMacro", codigoMacro);
@@ -180,6 +183,8 @@ public class ModificarDocumentos extends javax.swing.JFrame {
         tb_docSub = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_docGuard = new javax.swing.JTable();
+        lbl_guardar = new javax.swing.JLabel();
+        lbl_agregar = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -253,6 +258,8 @@ public class ModificarDocumentos extends javax.swing.JFrame {
         }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 300, 180));
+        getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 270, 30, 30));
+        getContentPane().add(lbl_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 270, 30, 30));
 
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,6 +408,8 @@ public class ModificarDocumentos extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_agregar;
+    private javax.swing.JLabel lbl_guardar;
     private javax.swing.JTable tb_docGuard;
     private javax.swing.JTable tb_docSub;
     // End of variables declaration//GEN-END:variables

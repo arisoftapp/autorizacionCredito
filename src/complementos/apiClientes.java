@@ -7,7 +7,10 @@ package complementos;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -353,6 +356,50 @@ public class apiClientes {
           
         }
          return res;
+    }
+     public void downloadDoc(String nombre,String ruta)
+    {
+        try {
+            URL url = new URL("http://wsar.homelinux.com:3100/download_documentos/"+nombre);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(20000);
+            conn.setReadTimeout(20000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                //BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+             System.out.println("ruta a guardar:"+ruta);
+            File file = new File(ruta+"/"+nombre);
+            copyInputStreamToFile(conn.getInputStream(), file);
+            conn.disconnect();
+            cuadroDialogo("Se descargo archivo en la ruta:"+ruta);
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+    }
+      private static void copyInputStreamToFile(InputStream inputStream, File file)throws IOException {
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+
+			// commons-io
+            //IOUtils.copy(inputStream, outputStream);
+
+        }
+
     }
             public void cuadroDialogo(String mensaje)
     {

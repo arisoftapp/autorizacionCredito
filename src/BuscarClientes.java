@@ -30,6 +30,7 @@ public class BuscarClientes extends javax.swing.JFrame {
     DefaultTableModel completo=null;
     apiClientes apiclientes=new apiClientes();
     String codigoMacroSelect="";
+    public static String vista;
     public BuscarClientes() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -195,42 +196,74 @@ public class BuscarClientes extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if(codigoMacroSelect.equalsIgnoreCase(""))
+        if(vista.equalsIgnoreCase("modificar"))
         {
-            JOptionPane.showMessageDialog(null, "no ha seleccionado Cliente");
+            if(codigoMacroSelect.equalsIgnoreCase(""))
+            {
+                JOptionPane.showMessageDialog(null, "no ha seleccionado Cliente");
+            }
+            else
+            {
+                System.out.println(codigoMacroSelect);
+                ModificarAutorizados vista=null;
+                vista.cod_macro=codigoMacroSelect;
+                vista.pantalla=3;
+                vista=new ModificarAutorizados();
+                vista.setVisible(true);
+                this.setVisible(false);
+            }
         }
         else
         {
-            System.out.println(codigoMacroSelect);
-            ModificarAutorizados vista=null;
-            vista.cod_macro=codigoMacroSelect;
-            vista.pantalla=3;
-            vista=new ModificarAutorizados();
-            vista.setVisible(true);
-            this.setVisible(false);
+            if(vista.equalsIgnoreCase("consultar"))
+            {
+                Consultar vista=null;
+                vista.cod_macro=codigoMacroSelect;
+                vista.pantalla=1;
+                vista=new Consultar();
+                vista.setVisible(true);
+                this.setVisible(false);
+            }
         }
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        if(codigoMacroSelect.equalsIgnoreCase(""))
+        if(vista.equalsIgnoreCase("modificar"))
         {
+            if(codigoMacroSelect.equalsIgnoreCase(""))
+            {
             //JOptionPane.showMessageDialog(null, "no ha seleccionado Cliente");
-            ModificarAutorizados vista=null;
-            vista.pantalla=0;
-            vista=new ModificarAutorizados();
-            vista.setVisible(true);
+                ModificarAutorizados vista=null;
+                vista.pantalla=0;
+                vista=new ModificarAutorizados();
+                vista.setVisible(true);
             
+            }
+            else
+            {
+                ModificarAutorizados vista=null;
+                vista.cod_macro=codigoMacroSelect;
+                vista.pantalla=3;
+                vista=new ModificarAutorizados();
+                vista.setVisible(true);
+            }
         }
         else
         {
-            ModificarAutorizados vista=null;
-            vista.cod_macro=codigoMacroSelect;
-            vista.pantalla=3;
-            vista=new ModificarAutorizados();
-            vista.setVisible(true);
+            if(vista.equalsIgnoreCase("consultar"))
+            {
+                Consultar vista=null;
+                vista.pantalla=1;
+                vista.cod_macro=codigoMacroSelect;
+                vista=new Consultar();
+                vista.setVisible(true);
+                this.setVisible(false);
+            }
         }
+        
         
             
     }//GEN-LAST:event_formWindowClosing

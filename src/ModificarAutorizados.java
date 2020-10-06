@@ -35,6 +35,7 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         public static String cod_macro;
         String idAutorizado="";
         public static Integer pantalla;
+        
     public ModificarAutorizados() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -374,7 +375,9 @@ public class ModificarAutorizados extends javax.swing.JFrame {
         //JSONObject res =  apiclientes.getClientes();
         //cuadroDialogo(res.toString());
        //this.setCursor(new Cursor(WAIT_CURSOR));
-        BuscarClientes vistaBC=new BuscarClientes();
+        BuscarClientes vistaBC=null;
+        vistaBC.vista="modificar";
+                vistaBC= new BuscarClientes();
         vistaBC.setVisible(true);
         // this.setCursor(new Cursor(DEFAULT_CURSOR));
         this.setVisible(false);

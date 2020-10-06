@@ -168,7 +168,7 @@ public class apiSubir {
         MultipartEntityBuilder builder=null;
  
         try{
-            System.out.println(jarray.length());
+            System.out.println("array length:"+jarray.length());
             if(jarray.length()==1)
             {
                 fichero1=new File(jarray.getJSONObject(0).getString("ruta"));
@@ -244,8 +244,8 @@ public class apiSubir {
         {
             System.err.println(e.getMessage());
         }
-        
-        HttpEntity multiPartEntity = builder.build();
+        try{
+            HttpEntity multiPartEntity = builder.build();
         httppost.setEntity(multiPartEntity);
         CloseableHttpResponse response = httpclient.execute(httppost);
         HttpEntity entity = response.getEntity();
@@ -253,6 +253,11 @@ public class apiSubir {
         jObject = new JSONObject(finalJSON);
         System.out.println(jObject.getString("mensaje"));
         response.close();
+        }catch(Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        
 
         return jObject;
     } 

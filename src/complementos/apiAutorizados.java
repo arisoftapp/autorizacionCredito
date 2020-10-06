@@ -567,6 +567,31 @@ public class apiAutorizados {
             JOptionPane.showMessageDialog(null, "Problemas al Descargar Foto: "+e.getMessage(),"",JOptionPane.WARNING_MESSAGE);
         }
     }
+    public void downloadDoc(String nombre)
+    {
+        try {
+            URL url = new URL("http://wsar.homelinux.com:3100/download_huellas/"+nombre);//your url i.e fetch data from .
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept","application/json");
+            //conn.setRequestProperty("access-token",token);
+            conn.setConnectTimeout(20000);
+            conn.setReadTimeout(20000);
+            conn.addRequestProperty("User-Agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            conn.setDoOutput(true);
+            conn.connect();
+            System.out.print(conn.getResponseCode());
+                //BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            File file = new File("src/tmpDescargas/"+nombre);
+            copyInputStreamToFile(conn.getInputStream(), file);
+            conn.disconnect();
+
+        } catch (IOException | JSONException e) {
+            System.err.println("Exception in NetClientGet:- " + e);
+          
+        }
+    }
       private static void copyInputStreamToFile(InputStream inputStream, File file)throws IOException {
 
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
