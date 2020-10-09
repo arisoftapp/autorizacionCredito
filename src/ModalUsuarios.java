@@ -9,6 +9,7 @@ import javax.swing.JSpinner;
 import javax.swing.ListModel;
 import javax.swing.SpinnerListModel;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -28,6 +29,7 @@ public class ModalUsuarios extends javax.swing.JDialog {
      */
     apiAdmin apiadmin=new apiAdmin();
     JSONArray jarray=null;
+    Integer idSelect=null;
     public ModalUsuarios(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -159,7 +161,8 @@ public class ModalUsuarios extends javax.swing.JDialog {
         // TODO add your handling code here:
         JSONObject obj= jarray.getJSONObject(lista.getSelectedIndex());
         System.out.println(lista.getSelectedIndex()+" "+obj.getString("codigoMacro"));
-        txt_empresa.setText(obj.getString("codigoMacro"));
+        txt_empresa.setText(""+obj.getString("codigoMacro"));
+        idSelect=obj.getInt("idempresa");
         
     }//GEN-LAST:event_listaValueChanged
 
@@ -181,10 +184,59 @@ public class ModalUsuarios extends javax.swing.JDialog {
                 {
                     cuadroDialogo("Seleccione empresa");
                 }
+                else
+                {
+                    Thread t = new ModalUsuarios.async_insertUsuario();
+                    t.start();
+                }
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public class async_insertUsuario extends Thread
+    {
+        public void run()
+        {
+           
+            altaUsuario();
+            
+        }
+    }
+    public void altaUsuario()
+    {
+        this.setCursor(new Cursor(WAIT_CURSOR));
+        try{
+             if(apiadmin.insertUsuario(crearJson()))
+            {
+                this.dispose();
+            }
+        }catch(Exception e)
+        {
+            
+        }
+        finally{
+            this.setCursor(new Cursor(DEFAULT_CURSOR));
+        }
+     
+       
+    }
+    public JSONObject crearJson()
+    {
+        
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("nom_usuario",txt_usuario.getText().toUpperCase().trim());
+            obj.put("contra", txt_contraseña.getText().toUpperCase().trim());
+            obj.put("idEmpresa",idSelect );
+            }
+        catch (JSONException e)
+            {
+             System.err.println("error al crear JSON:"+e.getMessage());  
+            }
+        return obj;
+    }
+
+  
     private void txt_contraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_contraseñaKeyReleased
         // TODO add your handling code here:
         txt_contraseña.setText(txt_contraseña.getText().toUpperCase());

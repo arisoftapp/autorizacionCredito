@@ -41,7 +41,7 @@ public class Autorizado extends javax.swing.JFrame {
     public Integer id_autorizados=null;
     public File fichero=null;
     apiSubir subirImg=new apiSubir();
-    CapturaHuella vistaCH=null;
+    CapturaUnaHuella vistaCH=null;
     apiAutorizados apiautorizados=new apiAutorizados();
     Documentos vdoc=null;
     public Autorizado() {
@@ -53,7 +53,7 @@ public class Autorizado extends javax.swing.JFrame {
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_doc, "src/images/add-doc.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella, "src/images/finger-scanner.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_nuevo, "src/images/clear.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_btnfoto, "src/images/picture.png");
+        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_btnfoto, "src/images/anadir.png");
         txt_codigo.setText(param);
         limpiarDirectorio();
         if(pantalla==1)
@@ -430,7 +430,7 @@ public class Autorizado extends javax.swing.JFrame {
                 vistaCH.nombre=txt_nombre.getText().trim();
                 vistaCH.id_autorizados=id_autorizados;
                 vistaCH.pantalla=1;
-                vistaCH=new CapturaHuella();
+                vistaCH=new CapturaUnaHuella();
                 vistaCH.setVisible(true);
             } 
             }
@@ -440,7 +440,7 @@ public class Autorizado extends javax.swing.JFrame {
                 vistaCH.nombre=txt_nombre.getText().trim();
                 vistaCH.id_autorizados=id_autorizados;
                 vistaCH.pantalla=1;
-                vistaCH=new CapturaHuella();
+                vistaCH=new CapturaUnaHuella();
                 vistaCH.setVisible(true);
             }
             

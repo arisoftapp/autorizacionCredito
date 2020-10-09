@@ -3,6 +3,8 @@
 import complementos.apiAutorizados;
 import complementos.consultasApi;
 import complementos.consultasBD;
+import java.awt.Cursor;
+import static java.awt.Frame.WAIT_CURSOR;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -198,26 +200,23 @@ public class home extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         //this.setVisible(false);
+        this.setVisible(false);
         AltaClientes vista=new AltaClientes();
         vista.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
         // TODO add your handling code here:
-        Thread t = new home.at_cerrar();
-            t.start();
+  
         try {
-            t.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+      Thread t = new home.at_cerrar();
+            t.start();
+        } catch (Exception ex) {
+            //Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         }
-                System.out.println("despues de tret");
-                if(consultasBD.tablaVacia())
-                {
-                        this.setVisible(false);
-                       Login vista=new Login();
-                vista.setVisible(true);
-                }
+
+               
      
         
  
@@ -228,15 +227,41 @@ public class home extends javax.swing.JFrame {
     {
         public void run()
         {
-            System.out.println("inicio tret");
-            if(consultasApi.CerrarSesion(usuario))
-            {
-                consultasBD.deleteUserLogout();
-            }
-            
+            cerrar();        
         }
 
 
+    }
+    public void cerrar()
+    {
+        this.setCursor(new Cursor(WAIT_CURSOR));
+            System.out.println("inicio tret");
+            try
+            {
+                   if(consultasApi.CerrarSesion(usuario))
+            {
+                consultasBD.deleteUserLogout();
+                 if(consultasBD.tablaVacia())
+                {
+                        this.setVisible(false);
+                       Login vista=new Login();
+                vista.setVisible(true);
+                }
+                
+            }
+                    else
+                 {
+                    JOptionPane.showMessageDialog(null, "Problemas al cerrar sesion", "Error",  JOptionPane.ERROR_MESSAGE );
+                 }
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE );
+            }
+            finally{
+                this.setCursor(new Cursor(DEFAULT_CURSOR));
+            }
+         
+            
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:

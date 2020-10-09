@@ -45,12 +45,14 @@ public class EditarAutorizado extends javax.swing.JFrame {
     public EditarAutorizado() {
         initComponents();
         this.setLocationRelativeTo(null);
+        btn_huella.setVisible(false);
+        lbl_huella.setVisible(false);
         txt_codigo.setText(cod_mac);
         txt_id.setText(""+id);
         limpiarDirectorio();
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_btnfoto, "src/images/anadir.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_foto, "src/images/camera.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella, "src/images/finger-scanner.png");
+        //rsscalelabel.RSScaleLabel.setScaleLabel(lbl_huella, "src/images/finger-scanner.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
         Thread task = new EditarAutorizado.asyncAutorizado();
         task.start();

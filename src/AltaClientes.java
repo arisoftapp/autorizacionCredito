@@ -90,7 +90,7 @@ public class AltaClientes extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("ID:");
+        jLabel1.setText("Codigo MacroPro:");
         jPanel3.add(jLabel1);
 
         txt_codigo.setToolTipText("Codigo ERP MacroPro");

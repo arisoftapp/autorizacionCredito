@@ -47,7 +47,7 @@ import org.json.JSONObject;
  *
  * @author Desarrollo
  */
-public class CapturaHuella extends javax.swing.JFrame {
+public class CapturaUnaHuella extends javax.swing.JFrame {
 
     /**
      * Creates new form CapturaHuella
@@ -78,7 +78,7 @@ public class CapturaHuella extends javax.swing.JFrame {
     //Para leer la huella, y definirla como una verificación
     public DPFPFeatureSet featureSetVerificacion;
     boolean val1=false,val2=false,val3=false,val4=false,val5=false;
-    public CapturaHuella() {
+    public CapturaUnaHuella() {
         try{
                 for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -94,15 +94,13 @@ public class CapturaHuella extends javax.swing.JFrame {
                 }
         initComponents();
         this.setLocationRelativeTo(null);
+        
         limpiarDirectorio();
         Iniciar();
-        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/huella-dactilar.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
-        rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
         rsscalelabel.RSScaleLabel.setScaleLabel(lbl_guardar, "src/images/save.png");
         System.out.println(codigo+" "+nombre);
+        rb1.setSelected(true);
         
     }
      protected void Iniciar(){
@@ -255,23 +253,14 @@ public void DibujarHuella(Image image){
         grupoHuella = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_Area = new javax.swing.JTextArea();
-        lbl_icono5 = new javax.swing.JLabel();
-        lbl_icono2 = new javax.swing.JLabel();
         lbl_icono1 = new javax.swing.JLabel();
-        lbl_icono3 = new javax.swing.JLabel();
-        lbl_icono4 = new javax.swing.JLabel();
         lbl_huella1 = new javax.swing.JLabel();
         rb1 = new javax.swing.JRadioButton();
-        rb2 = new javax.swing.JRadioButton();
-        rb3 = new javax.swing.JRadioButton();
-        rb4 = new javax.swing.JRadioButton();
-        rb5 = new javax.swing.JRadioButton();
         lbl_guardar = new javax.swing.JLabel();
         btn_guardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Capturar");
-        setPreferredSize(new java.awt.Dimension(500, 520));
+        setTitle("Capturar Huella");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -286,20 +275,8 @@ public void DibujarHuella(Image image){
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 300, 461, 100));
 
-        lbl_icono5.setPreferredSize(new java.awt.Dimension(50, 50));
-        getContentPane().add(lbl_icono5, new org.netbeans.lib.awtextra.AbsoluteConstraints(352, 37, -1, -1));
-
-        lbl_icono2.setPreferredSize(new java.awt.Dimension(50, 50));
-        getContentPane().add(lbl_icono2, new org.netbeans.lib.awtextra.AbsoluteConstraints(148, 37, -1, -1));
-
         lbl_icono1.setPreferredSize(new java.awt.Dimension(50, 50));
-        getContentPane().add(lbl_icono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 37, -1, -1));
-
-        lbl_icono3.setPreferredSize(new java.awt.Dimension(50, 50));
-        getContentPane().add(lbl_icono3, new org.netbeans.lib.awtextra.AbsoluteConstraints(216, 37, -1, -1));
-
-        lbl_icono4.setPreferredSize(new java.awt.Dimension(50, 50));
-        getContentPane().add(lbl_icono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(284, 37, -1, -1));
+        getContentPane().add(lbl_icono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, -1));
 
         lbl_huella1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         lbl_huella1.setPreferredSize(new java.awt.Dimension(50, 50));
@@ -311,39 +288,7 @@ public void DibujarHuella(Image image){
                 rb1ItemStateChanged(evt);
             }
         });
-        getContentPane().add(rb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
-
-        grupoHuella.add(rb2);
-        rb2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rb2ItemStateChanged(evt);
-            }
-        });
-        getContentPane().add(rb2, new org.netbeans.lib.awtextra.AbsoluteConstraints(158, 90, -1, -1));
-
-        grupoHuella.add(rb3);
-        rb3.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rb3ItemStateChanged(evt);
-            }
-        });
-        getContentPane().add(rb3, new org.netbeans.lib.awtextra.AbsoluteConstraints(226, 90, -1, -1));
-
-        grupoHuella.add(rb4);
-        rb4.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rb4ItemStateChanged(evt);
-            }
-        });
-        getContentPane().add(rb4, new org.netbeans.lib.awtextra.AbsoluteConstraints(294, 90, -1, -1));
-
-        grupoHuella.add(rb5);
-        rb5.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rb5ItemStateChanged(evt);
-            }
-        });
-        getContentPane().add(rb5, new org.netbeans.lib.awtextra.AbsoluteConstraints(362, 89, -1, -1));
+        getContentPane().add(rb1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, -1, -1));
         getContentPane().add(lbl_guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, 30, 30));
 
         btn_guardar.setText("jButton1");
@@ -377,83 +322,6 @@ public void DibujarHuella(Image image){
         }
         
     }//GEN-LAST:event_rb1ItemStateChanged
-
-    private void rb2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rb2ItemStateChanged
-        // TODO add your handling code here:
-        if(rb2.isSelected())
-        {
-           System.out.println("selecciono 2"); 
-           cambioImagen(2);
-            if(Lector.isStarted())
-            {
-                Reclutador.clear();
-                setTemplate(null);
-                EstadoHuellas();
-            }
-            else
-            {
-                start();
-            }
-        }
-        
-    }//GEN-LAST:event_rb2ItemStateChanged
-
-    private void rb3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rb3ItemStateChanged
-        // TODO add your handling code here:
-        if(rb3.isSelected())
-        {
-            cambioImagen(3);
-           System.out.println("selecciono 3"); 
-            if(Lector.isStarted())
-            {
-                Reclutador.clear();
-                setTemplate(null);
-                EstadoHuellas();
-            }
-            else
-            {
-                start();
-            }
-        }
-    }//GEN-LAST:event_rb3ItemStateChanged
-
-    private void rb4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rb4ItemStateChanged
-        // TODO add your handling code here:
-        if(rb4.isSelected())
-        {
-            cambioImagen(4);
-           System.out.println("selecciono 4"); 
-            if(Lector.isStarted())
-            {
-                Reclutador.clear();
-                setTemplate(null);
-                EstadoHuellas();
-            }
-            else
-            {
-                start();
-            }
-        }
-    }//GEN-LAST:event_rb4ItemStateChanged
-
-    private void rb5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rb5ItemStateChanged
-        // TODO add your handling code here:
-        if(rb5.isSelected())
-        {
-            cambioImagen(5);
-           System.out.println("selecciono 5"); 
-            if(Lector.isStarted())
-            {
-                Reclutador.clear();
-                setTemplate(null);
-                EstadoHuellas();
-            }
-            else
-            {
-                start();
-            }
-        }
-    }//GEN-LAST:event_rb5ItemStateChanged
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
@@ -586,30 +454,6 @@ public void DibujarHuella(Image image){
                    val1=true;
                    validarHuellaCompleta();
                }
-               if(rb2.isSelected())
-               {
-                   i=2;
-                   val2=true;
-                   validarHuellaCompleta();
-               }
-               if(rb3.isSelected())
-               {
-                   i=3;
-                   val3=true;
-                   validarHuellaCompleta();
-               }
-               if(rb4.isSelected())
-               {
-                   i=4;
-                   val4=true;
-                   validarHuellaCompleta();
-               }
-               if(rb5.isSelected())
-               {
-                   i=5;
-                   val5=true;
-                   validarHuellaCompleta();
-               }
                return i;
     }
     public void validarHuellaCompleta()
@@ -618,26 +462,6 @@ public void DibujarHuella(Image image){
         {
             rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/fingerprint.png");
             rb1.setEnabled(false);
-        }
-        if(val2==true)
-        {
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/fingerprint.png");
-            rb2.setEnabled(false);
-        }
-        if(val3==true)
-        {
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/fingerprint.png");
-            rb3.setEnabled(false);
-        }
-        if(val4==true)
-        {
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/fingerprint.png");
-            rb4.setEnabled(false);
-        }
-        if(val5==true)
-        {
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/fingerprint.png");
-            rb5.setEnabled(false);
         }
         
     }
@@ -648,46 +472,6 @@ public void DibujarHuella(Image image){
             case 1: i=1;
             txt_Area.setText("");
             rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/finger-scanner.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/huella-dactilar.png");
-            validarHuellaCompleta();
-            break;
-            case 2: i=2;
-            txt_Area.setText("");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/finger-scanner.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
-            validarHuellaCompleta();
-            break;
-            case 3: i=3;
-            txt_Area.setText("");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/finger-scanner.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
-            validarHuellaCompleta();
-            break;
-            case 4: i=4;
-            txt_Area.setText("");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/finger-scanner.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
-            validarHuellaCompleta();
-            break;
-            case 5: i=5;
-            txt_Area.setText("");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono5, "src/images/finger-scanner.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono2, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono1, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono3, "src/images/huella-dactilar.png");
-            rsscalelabel.RSScaleLabel.setScaleLabel(lbl_icono4, "src/images/huella-dactilar.png");
             validarHuellaCompleta();
             break;
             
@@ -764,15 +548,7 @@ public void DibujarHuella(Image image){
     private javax.swing.JLabel lbl_guardar;
     private javax.swing.JLabel lbl_huella1;
     private javax.swing.JLabel lbl_icono1;
-    private javax.swing.JLabel lbl_icono2;
-    private javax.swing.JLabel lbl_icono3;
-    private javax.swing.JLabel lbl_icono4;
-    private javax.swing.JLabel lbl_icono5;
     private javax.swing.JRadioButton rb1;
-    private javax.swing.JRadioButton rb2;
-    private javax.swing.JRadioButton rb3;
-    private javax.swing.JRadioButton rb4;
-    private javax.swing.JRadioButton rb5;
     private javax.swing.JTextArea txt_Area;
     // End of variables declaration//GEN-END:variables
 }

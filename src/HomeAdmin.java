@@ -2,8 +2,11 @@
 import complementos.consultasApi;
 import complementos.consultasBD;
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dialog;
 import java.awt.Frame;
+import static java.awt.Frame.DEFAULT_CURSOR;
+import static java.awt.Frame.WAIT_CURSOR;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -107,19 +111,12 @@ nv.setVisible(true);
 
     private void btn_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salirActionPerformed
         // TODO add your handling code here:
-        Thread t = new HomeAdmin.at_cerrar();
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("despues de tret");
-        if(consultasBD.tablaVacia())
-        {
-            this.setVisible(false);
-            Login vista=new Login();
-            vista.setVisible(true);
+       try {
+      Thread t = new HomeAdmin.at_cerrar();
+            t.start();
+        } catch (Exception ex) {
+            //Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         }
 
     }//GEN-LAST:event_btn_salirActionPerformed
@@ -143,15 +140,42 @@ nv.setVisible(true);
     {
         public void run()
         {
-            System.out.println("inicio tret");
-            if(consultasApi.CerrarSesion(usuario))
-            {
-                consultasBD.deleteUserLogout();
-            }
+            cerrar();
             
         }
 
 
+    }
+       public void cerrar()
+    {
+        this.setCursor(new Cursor(WAIT_CURSOR));
+            System.out.println("inicio tret");
+            try
+            {
+                   if(consultasApi.CerrarSesion(usuario))
+            {
+                consultasBD.deleteUserLogout();
+                 if(consultasBD.tablaVacia())
+                {
+                        this.setVisible(false);
+                       Login vista=new Login();
+                vista.setVisible(true);
+                }
+                
+            }
+                    else
+                 {
+                    JOptionPane.showMessageDialog(null, "Problemas al cerrar sesion", "Error",  JOptionPane.ERROR_MESSAGE );
+                 }
+            }catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Error",  JOptionPane.ERROR_MESSAGE );
+            }
+            finally{
+                this.setCursor(new Cursor(DEFAULT_CURSOR));
+            }
+         
+            
     }
     /**
      * @param args the command line arguments
